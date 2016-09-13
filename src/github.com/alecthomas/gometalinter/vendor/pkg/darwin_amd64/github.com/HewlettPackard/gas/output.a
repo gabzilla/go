@@ -1,0 +1,475 @@
+!<arch>
+__.PKGDEF       0           0     0     644     52125     `
+go object darwin amd64 go1.6.2 X:none
+build id "b224bce554dd657ee00f8976404c0e3725aa2475"
+
+$$
+package output
+	import csv "encoding/csv"
+	import io "io"
+	import json "encoding/json"
+	import strconv "strconv"
+	import template "text/template"
+	import core "github.com/HewlettPackard/gas/core"
+	type @"".ReportFormat int
+	const @"".ReportText @"".ReportFormat = 0x0
+	const @"".ReportJSON @"".ReportFormat = 0x1
+	const @"".ReportCSV @"".ReportFormat = 0x2
+	type @"io".Writer interface { Write(@"io".p []byte) (@"io".n int, @"io".err error) }
+	type @"github.com/HewlettPackard/gas/core".Score int
+	func (@"github.com/HewlettPackard/gas/core".cÂ·3 @"github.com/HewlettPackard/gas/core".Score) MarshalJSON () (? []byte, ? error)
+	func (@"github.com/HewlettPackard/gas/core".cÂ·2 @"github.com/HewlettPackard/gas/core".Score) String () (? string)
+	type @"github.com/HewlettPackard/gas/core".Issue struct { Severity @"github.com/HewlettPackard/gas/core".Score "json:\"severity\""; Confidence @"github.com/HewlettPackard/gas/core".Score "json:\"confidence\""; What string "json:\"details\""; File string "json:\"file\""; Code string "json:\"code\""; Line int "json:\"line\"" }
+	import ast "go/ast" // indirect
+	import token "go/token" // indirect
+	type @"go/token".Pos int
+	func (@"go/token".pÂ·2 @"go/token".Pos) IsValid () (? bool) { return @"go/token".pÂ·2 != @"go/token".Pos(0x0) }
+	type @"go/ast".Node interface { End() (? @"go/token".Pos); Pos() (? @"go/token".Pos) }
+	import sync "sync" // indirect
+	type @"sync".Mutex struct { @"sync".state int32; @"sync".sema uint32 }
+	func (@"sync".mÂ·1 *@"sync".Mutex) Lock ()
+	func (@"sync".mÂ·1 *@"sync".Mutex) Unlock ()
+	type @"sync".Locker interface { Lock(); Unlock() }
+	type @"sync".RWMutex struct { @"sync".w @"sync".Mutex; @"sync".writerSem uint32; @"sync".readerSem uint32; @"sync".readerCount int32; @"sync".readerWait int32 }
+	func (@"sync".rwÂ·1 *@"sync".RWMutex) Lock ()
+	func (@"sync".rwÂ·1 *@"sync".RWMutex) RLock ()
+	func (@"sync".rwÂ·2 *@"sync".RWMutex "esc:0x12") RLocker () (? @"sync".Locker) { return (*@"sync".rlocker)(@"sync".rwÂ·2) }
+	func (@"sync".rwÂ·1 *@"sync".RWMutex) RUnlock ()
+	func (@"sync".rwÂ·1 *@"sync".RWMutex) Unlock ()
+	type @"go/token".lineInfo struct { Offset int; Filename string; Line int }
+	type @"go/token".Position struct { Filename string; Offset int; Line int; Column int }
+	func (@"go/token".posÂ·2 *@"go/token".Position "esc:0x1") IsValid () (? bool) { return @"go/token".posÂ·2.Line > int(0x0) }
+	func (@"go/token".posÂ·2 @"go/token".Position "esc:0x12") String () (? string)
+	type @"go/token".File struct { @"go/token".set *@"go/token".FileSet; @"go/token".name string; @"go/token".base int; @"go/token".size int; @"go/token".lines []int; @"go/token".infos []@"go/token".lineInfo }
+	func (@"go/token".fÂ·1 *@"go/token".File "esc:0x9") AddLine (@"go/token".offsetÂ·2 int)
+	func (@"go/token".fÂ·1 *@"go/token".File "esc:0x9") AddLineInfo (@"go/token".offsetÂ·2 int, @"go/token".filenameÂ·3 string, @"go/token".lineÂ·4 int)
+	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x1") Base () (? int) { return @"go/token".fÂ·2.@"go/token".base }
+	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x1") Line (@"go/token".pÂ·3 @"go/token".Pos) (? int)
+	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x9") LineCount () (? int)
+	func (@"go/token".fÂ·1 *@"go/token".File "esc:0x9") MergeLine (@"go/token".lineÂ·2 int)
+	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x22") Name () (? string) { return @"go/token".fÂ·2.@"go/token".name }
+	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x1") Offset (@"go/token".pÂ·3 @"go/token".Pos) (? int)
+	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x1") Pos (@"go/token".offsetÂ·3 int) (? @"go/token".Pos)
+	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x22") Position (@"go/token".pÂ·3 @"go/token".Pos) (@"go/token".posÂ·1 @"go/token".Position)
+	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x22") PositionFor (@"go/token".pÂ·3 @"go/token".Pos, @"go/token".adjustedÂ·4 bool) (@"go/token".posÂ·1 @"go/token".Position)
+	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x9") SetLines (@"go/token".linesÂ·3 []int) (? bool)
+	func (@"go/token".fÂ·1 *@"go/token".File "esc:0x9") SetLinesForContent (@"go/token".contentÂ·2 []byte "esc:0x1")
+	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x1") Size () (? int) { return @"go/token".fÂ·2.@"go/token".size }
+	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x22") @"go/token".position (@"go/token".pÂ·3 @"go/token".Pos, @"go/token".adjustedÂ·4 bool) (@"go/token".posÂ·1 @"go/token".Position)
+	func (@"go/token".fÂ·4 *@"go/token".File "esc:0x22") @"go/token".unpack (@"go/token".offsetÂ·5 int, @"go/token".adjustedÂ·6 bool) (@"go/token".filenameÂ·1 string, @"go/token".lineÂ·2 int, @"go/token".columnÂ·3 int)
+	type @"go/token".FileSet struct { @"go/token".mutex @"sync".RWMutex; @"go/token".base int; @"go/token".files []*@"go/token".File; @"go/token".last *@"go/token".File }
+	func (@"go/token".sÂ·2 *@"go/token".FileSet) AddFile (@"go/token".filenameÂ·3 string, @"go/token".baseÂ·4 int, @"go/token".sizeÂ·5 int) (? *@"go/token".File)
+	func (@"go/token".sÂ·2 *@"go/token".FileSet) Base () (? int)
+	func (@"go/token".sÂ·2 *@"go/token".FileSet) File (@"go/token".pÂ·3 @"go/token".Pos) (@"go/token".fÂ·1 *@"go/token".File)
+	func (@"go/token".sÂ·1 *@"go/token".FileSet) Iterate (@"go/token".fÂ·2 func(? *@"go/token".File) (? bool) "esc:0x1")
+	func (@"go/token".sÂ·2 *@"go/token".FileSet) Position (@"go/token".pÂ·3 @"go/token".Pos) (@"go/token".posÂ·1 @"go/token".Position)
+	func (@"go/token".sÂ·2 *@"go/token".FileSet) PositionFor (@"go/token".pÂ·3 @"go/token".Pos, @"go/token".adjustedÂ·4 bool) (@"go/token".posÂ·1 @"go/token".Position)
+	func (@"go/token".sÂ·2 *@"go/token".FileSet) Read (@"go/token".decodeÂ·3 func(? interface {}) (? error) "esc:0x22") (? error)
+	func (@"go/token".sÂ·2 *@"go/token".FileSet) Write (@"go/token".encodeÂ·3 func(? interface {}) (? error) "esc:0x22") (? error)
+	func (@"go/token".sÂ·2 *@"go/token".FileSet) @"go/token".file (@"go/token".pÂ·3 @"go/token".Pos) (? *@"go/token".File)
+	type @"go/ast".Comment struct { Slash @"go/token".Pos; Text string }
+	func (@"go/ast".cÂ·2 *@"go/ast".Comment "esc:0x1") End () (? @"go/token".Pos) { return @"go/token".Pos(int(@"go/ast".cÂ·2.Slash) + len(@"go/ast".cÂ·2.Text)) }
+	func (@"go/ast".cÂ·2 *@"go/ast".Comment "esc:0x1") Pos () (? @"go/token".Pos) { return @"go/ast".cÂ·2.Slash }
+	type @"go/ast".CommentGroup struct { List []*@"go/ast".Comment }
+	func (@"go/ast".gÂ·2 *@"go/ast".CommentGroup "esc:0x1") End () (? @"go/token".Pos) { return @"go/ast".gÂ·2.List[len(@"go/ast".gÂ·2.List) - int(0x1)].End() }
+	func (@"go/ast".gÂ·2 *@"go/ast".CommentGroup "esc:0x1") Pos () (? @"go/token".Pos) { return @"go/ast".gÂ·2.List[int(0x0)].Pos() }
+	func (@"go/ast".gÂ·2 *@"go/ast".CommentGroup "esc:0x9") Text () (? string)
+	type @"go/ast".CommentMap map[@"go/ast".Node][]*@"go/ast".CommentGroup
+	func (@"go/ast".cmapÂ·2 @"go/ast".CommentMap "esc:0x9") Comments () (? []*@"go/ast".CommentGroup)
+	func (@"go/ast".cmapÂ·2 @"go/ast".CommentMap) Filter (@"go/ast".nodeÂ·3 @"go/ast".Node) (? @"go/ast".CommentMap)
+	func (@"go/ast".cmapÂ·2 @"go/ast".CommentMap "esc:0x9") String () (? string)
+	func (@"go/ast".cmapÂ·2 @"go/ast".CommentMap "esc:0x9") Update (@"go/ast".oldÂ·3 @"go/ast".Node "esc:0x1", @"go/ast".newÂ·4 @"go/ast".Node) (? @"go/ast".Node) { var @"go/ast".listÂ·5 []*@"go/ast".CommentGroup; ; @"go/ast".listÂ·5 = @"go/ast".cmapÂ·2[@"go/ast".oldÂ·3]; if len(@"go/ast".listÂ·5) > int(0x0) { delete(@"go/ast".cmapÂ·2, @"go/ast".oldÂ·3); @"go/ast".cmapÂ·2[@"go/ast".newÂ·4] = append(@"go/ast".cmapÂ·2[@"go/ast".newÂ·4], @"go/ast".listÂ·5...) }; return @"go/ast".newÂ·4 }
+	func (@"go/ast".cmapÂ·1 @"go/ast".CommentMap "esc:0x1") @"go/ast".addComment (@"go/ast".nÂ·2 @"go/ast".Node, @"go/ast".cÂ·3 *@"go/ast".CommentGroup) { var @"go/ast".listÂ·4 []*@"go/ast".CommentGroup; ; @"go/ast".listÂ·4 = @"go/ast".cmapÂ·1[@"go/ast".nÂ·2]; if len(@"go/ast".listÂ·4) == int(0x0) { @"go/ast".listÂ·4 = ([]*@"go/ast".CommentGroup{ int(0x0):@"go/ast".cÂ·3 }) } else { @"go/ast".listÂ·4 = append(@"go/ast".listÂ·4, @"go/ast".cÂ·3) }; @"go/ast".cmapÂ·1[@"go/ast".nÂ·2] = @"go/ast".listÂ·4 }
+	import types "go/types" // indirect
+	type @"go/types".operandMode uint8
+	type @"go/types".Type interface { String() (? string); Underlying() (? @"go/types".Type) }
+	import constant "go/constant" // indirect
+	type @"go/constant".Kind int
+	type @"go/constant".Value interface { ExactString() (? string); Kind() (? @"go/constant".Kind); String() (? string); @"go/constant".implementsValue() }
+	type @"go/types".TypeAndValue struct { @"go/types".mode @"go/types".operandMode; Type @"go/types".Type; Value @"go/constant".Value }
+	func (@"go/types".tvÂ·2 @"go/types".TypeAndValue "esc:0x1") Addressable () (? bool) { return @"go/types".tvÂ·2.@"go/types".mode == @"go/types".operandMode(0x5) }
+	func (@"go/types".tvÂ·2 @"go/types".TypeAndValue "esc:0x1") Assignable () (? bool) { return @"go/types".tvÂ·2.@"go/types".mode == @"go/types".operandMode(0x5) || @"go/types".tvÂ·2.@"go/types".mode == @"go/types".operandMode(0x6) }
+	func (@"go/types".tvÂ·2 @"go/types".TypeAndValue "esc:0x1") HasOk () (? bool) { return @"go/types".tvÂ·2.@"go/types".mode == @"go/types".operandMode(0x8) || @"go/types".tvÂ·2.@"go/types".mode == @"go/types".operandMode(0x6) }
+	func (@"go/types".tvÂ·2 @"go/types".TypeAndValue "esc:0x1") IsBuiltin () (? bool) { return @"go/types".tvÂ·2.@"go/types".mode == @"go/types".operandMode(0x2) }
+	func (@"go/types".tvÂ·2 @"go/types".TypeAndValue "esc:0x1") IsNil () (? bool) { return @"go/types".tvÂ·2.@"go/types".mode == @"go/types".operandMode(0x7) && @"go/types".tvÂ·2.Type == @"go/types".Typ[@"go/types".BasicKind(0x19)] }
+	func (@"go/types".tvÂ·2 @"go/types".TypeAndValue "esc:0x1") IsType () (? bool) { return @"go/types".tvÂ·2.@"go/types".mode == @"go/types".operandMode(0x3) }
+	func (@"go/types".tvÂ·2 @"go/types".TypeAndValue "esc:0x1") IsValue () (? bool)
+	func (@"go/types".tvÂ·2 @"go/types".TypeAndValue "esc:0x1") IsVoid () (? bool) { return @"go/types".tvÂ·2.@"go/types".mode == @"go/types".operandMode(0x1) }
+	type @"go/ast".Expr interface { End() (? @"go/token".Pos); Pos() (? @"go/token".Pos); @"go/ast".exprNode() }
+	type @"go/types".Scope struct { @"go/types".parent *@"go/types".Scope; @"go/types".children []*@"go/types".Scope; @"go/types".elems map[string]@"go/types".Object; @"go/types".pos @"go/token".Pos; @"go/types".end @"go/token".Pos; @"go/types".comment string }
+	func (@"go/types".sÂ·2 *@"go/types".Scope "esc:0x32") Child (@"go/types".iÂ·3 int) (? *@"go/types".Scope) { return @"go/types".sÂ·2.@"go/types".children[@"go/types".iÂ·3] }
+	func (@"go/types".sÂ·2 *@"go/types".Scope "esc:0x1") Contains (@"go/types".posÂ·3 @"go/token".Pos) (? bool) { return @"go/types".sÂ·2.@"go/types".pos <= @"go/types".posÂ·3 && @"go/types".posÂ·3 < @"go/types".sÂ·2.@"go/types".end }
+	func (@"go/types".sÂ·2 *@"go/types".Scope "esc:0x1") End () (? @"go/token".Pos) { return @"go/types".sÂ·2.@"go/types".end }
+	func (@"go/types".sÂ·2 *@"go/types".Scope) Innermost (@"go/types".posÂ·3 @"go/token".Pos) (? *@"go/types".Scope)
+	func (@"go/types".sÂ·2 *@"go/types".Scope) Insert (@"go/types".objÂ·3 @"go/types".Object) (? @"go/types".Object)
+	func (@"go/types".sÂ·2 *@"go/types".Scope "esc:0x1") Len () (? int) { return len(@"go/types".sÂ·2.@"go/types".elems) }
+	func (@"go/types".sÂ·2 *@"go/types".Scope "esc:0x1") Lookup (@"go/types".nameÂ·3 string "esc:0x1") (? @"go/types".Object) { return @"go/types".sÂ·2.@"go/types".elems[@"go/types".nameÂ·3] }
+	func (@"go/types".sÂ·3 *@"go/types".Scope "esc:0x12") LookupParent (@"go/types".nameÂ·4 string "esc:0x1", @"go/types".posÂ·5 @"go/token".Pos) (? *@"go/types".Scope, ? @"go/types".Object)
+	func (@"go/types".sÂ·2 *@"go/types".Scope "esc:0x1") Names () (? []string)
+	func (@"go/types".sÂ·2 *@"go/types".Scope "esc:0x1") NumChildren () (? int) { return len(@"go/types".sÂ·2.@"go/types".children) }
+	func (@"go/types".sÂ·2 *@"go/types".Scope "esc:0x22") Parent () (? *@"go/types".Scope) { return @"go/types".sÂ·2.@"go/types".parent }
+	func (@"go/types".sÂ·2 *@"go/types".Scope "esc:0x1") Pos () (? @"go/token".Pos) { return @"go/types".sÂ·2.@"go/types".pos }
+	func (@"go/types".sÂ·2 *@"go/types".Scope) String () (? string)
+	func (@"go/types".sÂ·1 *@"go/types".Scope) WriteTo (@"go/types".wÂ·2 @"io".Writer, @"go/types".nÂ·3 int, @"go/types".recurseÂ·4 bool)
+	type @"go/types".Package struct { @"go/types".path string; @"go/types".name string; @"go/types".scope *@"go/types".Scope; @"go/types".complete bool; @"go/types".imports []*@"go/types".Package; @"go/types".fake bool }
+	func (@"go/types".pkgÂ·2 *@"go/types".Package "esc:0x1") Complete () (? bool) { return @"go/types".pkgÂ·2.@"go/types".complete }
+	func (@"go/types".pkgÂ·2 *@"go/types".Package "esc:0x22") Imports () (? []*@"go/types".Package) { return @"go/types".pkgÂ·2.@"go/types".imports }
+	func (@"go/types".pkgÂ·1 *@"go/types".Package "esc:0x1") MarkComplete () { @"go/types".pkgÂ·1.@"go/types".complete = bool(true) }
+	func (@"go/types".pkgÂ·2 *@"go/types".Package "esc:0x22") Name () (? string) { return @"go/types".pkgÂ·2.@"go/types".name }
+	func (@"go/types".pkgÂ·2 *@"go/types".Package "esc:0x22") Path () (? string) { return @"go/types".pkgÂ·2.@"go/types".path }
+	func (@"go/types".pkgÂ·2 *@"go/types".Package "esc:0x22") Scope () (? *@"go/types".Scope) { return @"go/types".pkgÂ·2.@"go/types".scope }
+	func (@"go/types".pkgÂ·1 *@"go/types".Package "esc:0x1") SetImports (@"go/types".listÂ·2 []*@"go/types".Package) { @"go/types".pkgÂ·1.@"go/types".imports = @"go/types".listÂ·2 }
+	func (@"go/types".pkgÂ·1 *@"go/types".Package "esc:0x1") SetName (@"go/types".nameÂ·2 string) { @"go/types".pkgÂ·1.@"go/types".name = @"go/types".nameÂ·2 }
+	func (@"go/types".pkgÂ·2 *@"go/types".Package "esc:0x9") String () (? string)
+	type @"go/types".Object interface { Exported() (? bool); Id() (? string); Name() (? string); Parent() (? *@"go/types".Scope); Pkg() (? *@"go/types".Package); Pos() (? @"go/token".Pos); String() (? string); Type() (? @"go/types".Type); @"go/types".order() (? uint32); @"go/types".sameId(@"go/types".pkg *@"go/types".Package, @"go/types".name string) (? bool); @"go/types".scopePos() (? @"go/token".Pos); @"go/types".setOrder(? uint32); @"go/types".setParent(? *@"go/types".Scope); @"go/types".setScopePos(@"go/types".pos @"go/token".Pos) }
+	type @"go/ast".ObjKind int
+	func (@"go/ast".kindÂ·2 @"go/ast".ObjKind) String () (? string) { return @"go/ast".objKindStrings[@"go/ast".kindÂ·2] }
+	type @"go/ast".Object struct { Kind @"go/ast".ObjKind; Name string; Decl interface {}; Data interface {}; Type interface {} }
+	func (@"go/ast".objÂ·2 *@"go/ast".Object "esc:0x1") Pos () (? @"go/token".Pos)
+	type @"go/ast".Ident struct { NamePos @"go/token".Pos; Name string; Obj *@"go/ast".Object }
+	func (@"go/ast".xÂ·2 *@"go/ast".Ident "esc:0x1") End () (? @"go/token".Pos) { return @"go/token".Pos(int(@"go/ast".xÂ·2.NamePos) + len(@"go/ast".xÂ·2.Name)) }
+	func (@"go/ast".idÂ·2 *@"go/ast".Ident "esc:0x1") IsExported () (? bool)
+	func (@"go/ast".xÂ·2 *@"go/ast".Ident "esc:0x1") Pos () (? @"go/token".Pos) { return @"go/ast".xÂ·2.NamePos }
+	func (@"go/ast".idÂ·2 *@"go/ast".Ident "esc:0x22") String () (? string) { if @"go/ast".idÂ·2 != nil { return @"go/ast".idÂ·2.Name }; return string("<nil>") }
+	func (? *@"go/ast".Ident) @"go/ast".exprNode () {  }
+	type @"go/types".SelectionKind int
+	type @"go/types".Selection struct { @"go/types".kind @"go/types".SelectionKind; @"go/types".recv @"go/types".Type; @"go/types".obj @"go/types".Object; @"go/types".index []int; @"go/types".indirect bool }
+	func (@"go/types".sÂ·2 *@"go/types".Selection "esc:0x22") Index () (? []int) { return @"go/types".sÂ·2.@"go/types".index }
+	func (@"go/types".sÂ·2 *@"go/types".Selection "esc:0x1") Indirect () (? bool) { return @"go/types".sÂ·2.@"go/types".indirect }
+	func (@"go/types".sÂ·2 *@"go/types".Selection "esc:0x1") Kind () (? @"go/types".SelectionKind) { return @"go/types".sÂ·2.@"go/types".kind }
+	func (@"go/types".sÂ·2 *@"go/types".Selection "esc:0x22") Obj () (? @"go/types".Object) { return @"go/types".sÂ·2.@"go/types".obj }
+	func (@"go/types".sÂ·2 *@"go/types".Selection "esc:0x22") Recv () (? @"go/types".Type) { return @"go/types".sÂ·2.@"go/types".recv }
+	func (@"go/types".sÂ·2 *@"go/types".Selection) String () (? string)
+	func (@"go/types".sÂ·2 *@"go/types".Selection) Type () (? @"go/types".Type)
+	type @"go/ast".SelectorExpr struct { X @"go/ast".Expr; Sel *@"go/ast".Ident }
+	func (@"go/ast".xÂ·2 *@"go/ast".SelectorExpr "esc:0x1") End () (? @"go/token".Pos) { return @"go/ast".xÂ·2.Sel.End() }
+	func (@"go/ast".xÂ·2 *@"go/ast".SelectorExpr "esc:0x9") Pos () (? @"go/token".Pos)
+	func (? *@"go/ast".SelectorExpr) @"go/ast".exprNode () {  }
+	type @"go/types".object struct { @"go/types".parent *@"go/types".Scope; @"go/types".pos @"go/token".Pos; @"go/types".pkg *@"go/types".Package; @"go/types".name string; @"go/types".typ @"go/types".Type; @"go/types".order_ uint32; @"go/types".scopePos_ @"go/token".Pos }
+	func (@"go/types".objÂ·2 *@"go/types".object "esc:0x1") Exported () (? bool)
+	func (@"go/types".objÂ·2 *@"go/types".object "esc:0x22") Id () (? string)
+	func (@"go/types".objÂ·2 *@"go/types".object "esc:0x22") Name () (? string) { return @"go/types".objÂ·2.@"go/types".name }
+	func (@"go/types".objÂ·2 *@"go/types".object "esc:0x22") Parent () (? *@"go/types".Scope) { return @"go/types".objÂ·2.@"go/types".parent }
+	func (@"go/types".objÂ·2 *@"go/types".object "esc:0x22") Pkg () (? *@"go/types".Package) { return @"go/types".objÂ·2.@"go/types".pkg }
+	func (@"go/types".objÂ·2 *@"go/types".object "esc:0x1") Pos () (? @"go/token".Pos) { return @"go/types".objÂ·2.@"go/types".pos }
+	func (@"go/types".objÂ·2 *@"go/types".object "esc:0x1") String () (? string)
+	func (@"go/types".objÂ·2 *@"go/types".object "esc:0x22") Type () (? @"go/types".Type) { return @"go/types".objÂ·2.@"go/types".typ }
+	func (@"go/types".objÂ·2 *@"go/types".object "esc:0x1") @"go/types".order () (? uint32) { return @"go/types".objÂ·2.@"go/types".order_ }
+	func (@"go/types".objÂ·2 *@"go/types".object "esc:0x1") @"go/types".sameId (@"go/types".pkgÂ·3 *@"go/types".Package "esc:0x1", @"go/types".nameÂ·4 string "esc:0x1") (? bool)
+	func (@"go/types".objÂ·2 *@"go/types".object "esc:0x1") @"go/types".scopePos () (? @"go/token".Pos) { return @"go/types".objÂ·2.@"go/types".scopePos_ }
+	func (@"go/types".objÂ·1 *@"go/types".object "esc:0x1") @"go/types".setOrder (@"go/types".orderÂ·2 uint32)
+	func (@"go/types".objÂ·1 *@"go/types".object "esc:0x1") @"go/types".setParent (@"go/types".parentÂ·2 *@"go/types".Scope) { @"go/types".objÂ·1.@"go/types".parent = @"go/types".parentÂ·2 }
+	func (@"go/types".objÂ·1 *@"go/types".object "esc:0x1") @"go/types".setScopePos (@"go/types".posÂ·2 @"go/token".Pos) { @"go/types".objÂ·1.@"go/types".scopePos_ = @"go/types".posÂ·2 }
+	type @"go/types".Var struct { @"go/types".? @"go/types".object; @"go/types".anonymous bool; @"go/types".visited bool; @"go/types".isField bool; @"go/types".used bool }
+	func (@"go/types".objÂ·2 *@"go/types".Var "esc:0x1") Anonymous () (? bool) { return @"go/types".objÂ·2.@"go/types".anonymous }
+	func (@"go/types".objÂ·2 *@"go/types".Var "esc:0x1") IsField () (? bool) { return @"go/types".objÂ·2.@"go/types".isField }
+	func (@"go/types".objÂ·2 *@"go/types".Var) String () (? string)
+	type @"go/types".Initializer struct { Lhs []*@"go/types".Var; Rhs @"go/ast".Expr }
+	func (@"go/types".initÂ·2 *@"go/types".Initializer "esc:0x9") String () (? string)
+	type @"go/types".Info struct { Types map[@"go/ast".Expr]@"go/types".TypeAndValue; Defs map[*@"go/ast".Ident]@"go/types".Object; Uses map[*@"go/ast".Ident]@"go/types".Object; Implicits map[@"go/ast".Node]@"go/types".Object; Selections map[*@"go/ast".SelectorExpr]*@"go/types".Selection; Scopes map[@"go/ast".Node]*@"go/types".Scope; InitOrder []*@"go/types".Initializer }
+	func (@"go/types".infoÂ·2 *@"go/types".Info "esc:0x1") ObjectOf (@"go/types".idÂ·3 *@"go/ast".Ident "esc:0x1") (? @"go/types".Object) { var @"go/types".objÂ·4 @"go/types".Object; ; @"go/types".objÂ·4, _ = @"go/types".infoÂ·2.Defs[@"go/types".idÂ·3]; if @"go/types".objÂ·4 != nil { return @"go/types".objÂ·4 }; return @"go/types".infoÂ·2.Uses[@"go/types".idÂ·3] }
+	func (@"go/types".infoÂ·2 *@"go/types".Info "esc:0x1") TypeOf (@"go/types".eÂ·3 @"go/ast".Expr "esc:0x1") (? @"go/types".Type)
+	type @"github.com/HewlettPackard/gas/core".Context struct { FileSet *@"go/token".FileSet; Comments @"go/ast".CommentMap; Info *@"go/types".Info; Pkg *@"go/types".Package }
+	type @"github.com/HewlettPackard/gas/core".Rule interface { Match(? @"go/ast".Node, ? *@"github.com/HewlettPackard/gas/core".Context) (? *@"github.com/HewlettPackard/gas/core".Issue, ? error) }
+	import reflect "reflect" // indirect
+	type @"reflect".ChanDir int
+	func (@"reflect".dÂ·2 @"reflect".ChanDir) String () (? string)
+	type @"reflect".StructTag string
+	func (@"reflect".tagÂ·2 @"reflect".StructTag "esc:0x12") Get (@"reflect".keyÂ·3 string "esc:0x1") (? string)
+	type @"reflect".StructField struct { Name string; PkgPath string; Type @"reflect".Type; Tag @"reflect".StructTag; Offset uintptr; Index []int; Anonymous bool }
+	type @"reflect".Kind uint
+	func (@"reflect".kÂ·2 @"reflect".Kind) String () (? string)
+	type @"reflect".typeAlg struct { @"reflect".hash func(? @"unsafe".Pointer, ? uintptr) (? uintptr); @"reflect".equal func(? @"unsafe".Pointer, ? @"unsafe".Pointer) (? bool) }
+	type @"reflect".method struct { @"reflect".name *string; @"reflect".pkgPath *string; @"reflect".mtyp *@"reflect".rtype; @"reflect".typ *@"reflect".rtype; @"reflect".ifn @"unsafe".Pointer; @"reflect".tfn @"unsafe".Pointer }
+	type @"reflect".uncommonType struct { @"reflect".name *string; @"reflect".pkgPath *string; @"reflect".methods []@"reflect".method }
+	func (@"reflect".tÂ·2 *@"reflect".uncommonType "esc:0x22") Method (@"reflect".iÂ·3 int) (@"reflect".mÂ·1 @"reflect".Method)
+	func (@"reflect".tÂ·3 *@"reflect".uncommonType "esc:0x22") MethodByName (@"reflect".nameÂ·4 string "esc:0x1") (@"reflect".mÂ·1 @"reflect".Method, @"reflect".okÂ·2 bool)
+	func (@"reflect".tÂ·2 *@"reflect".uncommonType "esc:0x32") Name () (? string) { if @"reflect".tÂ·2 == nil || @"reflect".tÂ·2.@"reflect".name == nil { return string("") }; return *@"reflect".tÂ·2.@"reflect".name }
+	func (@"reflect".tÂ·2 *@"reflect".uncommonType "esc:0x1") NumMethod () (? int) { if @"reflect".tÂ·2 == nil { return int(0x0) }; return len(@"reflect".tÂ·2.@"reflect".methods) }
+	func (@"reflect".tÂ·2 *@"reflect".uncommonType "esc:0x32") PkgPath () (? string) { if @"reflect".tÂ·2 == nil || @"reflect".tÂ·2.@"reflect".pkgPath == nil { return string("") }; return *@"reflect".tÂ·2.@"reflect".pkgPath }
+	func (@"reflect".tÂ·2 *@"reflect".uncommonType "esc:0x12") @"reflect".uncommon () (? *@"reflect".uncommonType) { return @"reflect".tÂ·2 }
+	type @"reflect".rtype struct { @"reflect".size uintptr; @"reflect".ptrdata uintptr; @"reflect".hash uint32; _ uint8; @"reflect".align uint8; @"reflect".fieldAlign uint8; @"reflect".kind uint8; @"reflect".alg *@"reflect".typeAlg; @"reflect".gcdata *byte; @"reflect".string *string; @"reflect".? *@"reflect".uncommonType; @"reflect".ptrToThis *@"reflect".rtype }
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") Align () (? int) { return int(@"reflect".tÂ·2.@"reflect".align) }
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") AssignableTo (@"reflect".uÂ·3 @"reflect".Type "esc:0x1") (? bool)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") Bits () (? int)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") ChanDir () (? @"reflect".ChanDir)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") Comparable () (? bool) { return @"reflect".tÂ·2.@"reflect".alg != nil && @"reflect".tÂ·2.@"reflect".alg.@"reflect".equal != nil }
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x9") ConvertibleTo (@"reflect".uÂ·3 @"reflect".Type "esc:0x9") (? bool)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x22") Elem () (? @"reflect".Type)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x3a") Field (@"reflect".iÂ·3 int) (? @"reflect".StructField)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") FieldAlign () (? int) { return int(@"reflect".tÂ·2.@"reflect".fieldAlign) }
+	func (@"reflect".tÂ·2 *@"reflect".rtype) FieldByIndex (@"reflect".indexÂ·3 []int "esc:0x1") (? @"reflect".StructField)
+	func (@"reflect".tÂ·3 *@"reflect".rtype) FieldByName (@"reflect".nameÂ·4 string "esc:0x1") (? @"reflect".StructField, ? bool)
+	func (@"reflect".tÂ·3 *@"reflect".rtype) FieldByNameFunc (@"reflect".matchÂ·4 func(? string) (? bool) "esc:0x1") (? @"reflect".StructField, ? bool)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") Implements (@"reflect".uÂ·3 @"reflect".Type) (? bool)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x32") In (@"reflect".iÂ·3 int) (? @"reflect".Type)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") IsVariadic () (? bool)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x22") Key () (? @"reflect".Type)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") Kind () (? @"reflect".Kind) { return @"reflect".Kind(@"reflect".tÂ·2.@"reflect".kind & uint8(0x1f)) }
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") Len () (? int)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x32") Method (@"reflect".iÂ·3 int) (@"reflect".mÂ·1 @"reflect".Method)
+	func (@"reflect".tÂ·3 *@"reflect".rtype "esc:0x32") MethodByName (@"reflect".nameÂ·4 string "esc:0x1") (@"reflect".mÂ·1 @"reflect".Method, @"reflect".okÂ·2 bool)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x42") Name () (? string) { return @"reflect".tÂ·2.@"reflect".uncommonType.Name() }
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") NumField () (? int)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") NumIn () (? int)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") NumMethod () (? int) { if @"reflect".tÂ·2.Kind() == @"reflect".Kind(0x14) { var @"reflect".ttÂ·3 *@"reflect".interfaceType; ; @"reflect".ttÂ·3 = (*@"reflect".interfaceType)(@"unsafe".Pointer(@"reflect".tÂ·2)); return @"reflect".ttÂ·3.NumMethod() }; return @"reflect".tÂ·2.@"reflect".uncommonType.NumMethod() }
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") NumOut () (? int)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x32") Out (@"reflect".iÂ·3 int) (? @"reflect".Type)
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x42") PkgPath () (? string) { return @"reflect".tÂ·2.@"reflect".uncommonType.PkgPath() }
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") Size () (? uintptr) { return @"reflect".tÂ·2.@"reflect".size }
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x32") String () (? string) { return *@"reflect".tÂ·2.@"reflect".string }
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x12") @"reflect".common () (? *@"reflect".rtype) { return @"reflect".tÂ·2 }
+	func (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x1") @"reflect".pointers () (? bool) { return @"reflect".tÂ·2.@"reflect".kind & uint8(0x80) == uint8(0x0) }
+	func (@"reflect".tÂ·2 *@"reflect".rtype) @"reflect".ptrTo () (? *@"reflect".rtype)
+	type @"reflect".flag uintptr
+	func (@"reflect".fÂ·2 @"reflect".flag) @"reflect".kind () (? @"reflect".Kind) { return @"reflect".Kind(@"reflect".fÂ·2 & @"reflect".flag(0x1f)) }
+	func (@"reflect".fÂ·1 @"reflect".flag) @"reflect".mustBe (@"reflect".expectedÂ·2 @"reflect".Kind)
+	func (@"reflect".fÂ·1 @"reflect".flag) @"reflect".mustBeAssignable ()
+	func (@"reflect".fÂ·1 @"reflect".flag) @"reflect".mustBeExported ()
+	type @"reflect".Value struct { @"reflect".typ *@"reflect".rtype; @"reflect".ptr @"unsafe".Pointer; @"reflect".? @"reflect".flag }
+	func (@"reflect".vÂ·2 @"reflect".Value) Addr () (? @"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") Bool () (? bool)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x2a") Bytes () (? []byte)
+	func (@"reflect".vÂ·2 @"reflect".Value) Call (@"reflect".inÂ·3 []@"reflect".Value "esc:0x9") (? []@"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value) CallSlice (@"reflect".inÂ·3 []@"reflect".Value "esc:0x9") (? []@"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") CanAddr () (? bool) { return @"reflect".vÂ·2.@"reflect".flag & @"reflect".flag(0x100) != @"reflect".flag(0x0) }
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") CanInterface () (? bool)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") CanSet () (? bool) { return @"reflect".vÂ·2.@"reflect".flag & @"reflect".flag(0x160) == @"reflect".flag(0x100) }
+	func (@"reflect".vÂ·2 @"reflect".Value) Cap () (? int)
+	func (@"reflect".vÂ·1 @"reflect".Value) Close ()
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") Complex () (? complex128)
+	func (@"reflect".vÂ·2 @"reflect".Value) Convert (@"reflect".tÂ·3 @"reflect".Type) (? @"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x12") Elem () (? @"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x12") Field (@"reflect".iÂ·3 int) (? @"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1a") FieldByIndex (@"reflect".indexÂ·3 []int "esc:0x1") (? @"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value) FieldByName (@"reflect".nameÂ·3 string "esc:0x1") (? @"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value) FieldByNameFunc (@"reflect".matchÂ·3 func(? string) (? bool) "esc:0x1") (? @"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") Float () (? float64)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x12") Index (@"reflect".iÂ·3 int) (? @"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") Int () (? int64)
+	func (@"reflect".vÂ·2 @"reflect".Value) Interface () (@"reflect".iÂ·1 interface {})
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") InterfaceData () (? [2]uintptr)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") IsNil () (? bool)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") IsValid () (? bool) { return @"reflect".vÂ·2.@"reflect".flag != @"reflect".flag(0x0) }
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") Kind () (? @"reflect".Kind) { return @"reflect".vÂ·2.@"reflect".flag.@"reflect".kind() }
+	func (@"reflect".vÂ·2 @"reflect".Value) Len () (? int)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x2a") MapIndex (@"reflect".keyÂ·3 @"reflect".Value) (? @"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x9") MapKeys () (? []@"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x12") Method (@"reflect".iÂ·3 int) (? @"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x12") MethodByName (@"reflect".nameÂ·3 string "esc:0x1") (? @"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") NumField () (? int)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") NumMethod () (? int)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") OverflowComplex (@"reflect".xÂ·3 complex128) (? bool)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") OverflowFloat (@"reflect".xÂ·3 float64) (? bool)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") OverflowInt (@"reflect".xÂ·3 int64) (? bool)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") OverflowUint (@"reflect".xÂ·3 uint64) (? bool)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x12") Pointer () (? uintptr)
+	func (@"reflect".vÂ·3 @"reflect".Value) Recv () (@"reflect".xÂ·1 @"reflect".Value, @"reflect".okÂ·2 bool)
+	func (@"reflect".vÂ·1 @"reflect".Value "esc:0x9") Send (@"reflect".xÂ·2 @"reflect".Value)
+	func (@"reflect".vÂ·1 @"reflect".Value) Set (@"reflect".xÂ·2 @"reflect".Value)
+	func (@"reflect".vÂ·1 @"reflect".Value "esc:0x1") SetBool (@"reflect".xÂ·2 bool)
+	func (@"reflect".vÂ·1 @"reflect".Value "esc:0x9") SetBytes (@"reflect".xÂ·2 []byte)
+	func (@"reflect".vÂ·1 @"reflect".Value "esc:0x1") SetCap (@"reflect".nÂ·2 int)
+	func (@"reflect".vÂ·1 @"reflect".Value "esc:0x1") SetComplex (@"reflect".xÂ·2 complex128)
+	func (@"reflect".vÂ·1 @"reflect".Value "esc:0x1") SetFloat (@"reflect".xÂ·2 float64)
+	func (@"reflect".vÂ·1 @"reflect".Value "esc:0x1") SetInt (@"reflect".xÂ·2 int64)
+	func (@"reflect".vÂ·1 @"reflect".Value "esc:0x1") SetLen (@"reflect".nÂ·2 int)
+	func (@"reflect".vÂ·1 @"reflect".Value "esc:0x9") SetMapIndex (@"reflect".keyÂ·2 @"reflect".Value, @"reflect".valÂ·3 @"reflect".Value)
+	func (@"reflect".vÂ·1 @"reflect".Value "esc:0x1") SetPointer (@"reflect".xÂ·2 @"unsafe".Pointer)
+	func (@"reflect".vÂ·1 @"reflect".Value "esc:0x1") SetString (@"reflect".xÂ·2 string)
+	func (@"reflect".vÂ·1 @"reflect".Value "esc:0x1") SetUint (@"reflect".xÂ·2 uint64)
+	func (@"reflect".vÂ·2 @"reflect".Value) Slice (@"reflect".iÂ·3 int, @"reflect".jÂ·4 int) (? @"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value) Slice3 (@"reflect".iÂ·3 int, @"reflect".jÂ·4 int, @"reflect".kÂ·5 int) (? @"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value) String () (? string)
+	func (@"reflect".vÂ·3 @"reflect".Value) TryRecv () (@"reflect".xÂ·1 @"reflect".Value, @"reflect".okÂ·2 bool)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x9") TrySend (@"reflect".xÂ·3 @"reflect".Value) (? bool)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x12") Type () (? @"reflect".Type)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x1") Uint () (? uint64)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x12") UnsafeAddr () (? uintptr)
+	func (@"reflect".vÂ·2 @"reflect".Value) @"reflect".assignTo (@"reflect".contextÂ·3 string "esc:0x1", @"reflect".dstÂ·4 *@"reflect".rtype, @"reflect".targetÂ·5 @"unsafe".Pointer) (? @"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value) @"reflect".call (@"reflect".opÂ·3 string "esc:0x1", @"reflect".inÂ·4 []@"reflect".Value "esc:0x9") (? []@"reflect".Value)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x12") @"reflect".pointer () (? @"unsafe".Pointer)
+	func (@"reflect".vÂ·3 @"reflect".Value) @"reflect".recv (@"reflect".nbÂ·4 bool) (@"reflect".valÂ·1 @"reflect".Value, @"reflect".okÂ·2 bool)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x2a") @"reflect".runes () (? []rune)
+	func (@"reflect".vÂ·2 @"reflect".Value "esc:0x9") @"reflect".send (@"reflect".xÂ·3 @"reflect".Value, @"reflect".nbÂ·4 bool) (@"reflect".selectedÂ·1 bool)
+	func (@"reflect".vÂ·1 @"reflect".Value "esc:0x9") @"reflect".setRunes (@"reflect".xÂ·2 []rune)
+	type @"reflect".Method struct { Name string; PkgPath string; Type @"reflect".Type; Func @"reflect".Value; Index int }
+	type @"reflect".Type interface { Align() (? int); AssignableTo(@"reflect".u @"reflect".Type) (? bool); Bits() (? int); ChanDir() (? @"reflect".ChanDir); Comparable() (? bool); ConvertibleTo(@"reflect".u @"reflect".Type) (? bool); Elem() (? @"reflect".Type); Field(@"reflect".i int) (? @"reflect".StructField); FieldAlign() (? int); FieldByIndex(@"reflect".index []int) (? @"reflect".StructField); FieldByName(@"reflect".name string) (? @"reflect".StructField, ? bool); FieldByNameFunc(@"reflect".match func(? string) (? bool)) (? @"reflect".StructField, ? bool); Implements(@"reflect".u @"reflect".Type) (? bool); In(@"reflect".i int) (? @"reflect".Type); IsVariadic() (? bool); Key() (? @"reflect".Type); Kind() (? @"reflect".Kind); Len() (? int); Method(? int) (? @"reflect".Method); MethodByName(? string) (? @"reflect".Method, ? bool); Name() (? string); NumField() (? int); NumIn() (? int); NumMethod() (? int); NumOut() (? int); Out(@"reflect".i int) (? @"reflect".Type); PkgPath() (? string); Size() (? uintptr); String() (? string); @"reflect".common() (? *@"reflect".rtype); @"reflect".uncommon() (? *@"reflect".uncommonType) }
+	type @"github.com/HewlettPackard/gas/core".RuleSet map[@"reflect".Type][]@"github.com/HewlettPackard/gas/core".Rule
+	import log "log" // indirect
+	import time "time" // indirect
+	type @"time".zone struct { @"time".name string; @"time".offset int; @"time".isDST bool }
+	type @"time".zoneTrans struct { @"time".when int64; @"time".index uint8; @"time".isstd bool; @"time".isutc bool }
+	type @"time".Location struct { @"time".name string; @"time".zone []@"time".zone; @"time".tx []@"time".zoneTrans; @"time".cacheStart int64; @"time".cacheEnd int64; @"time".cacheZone *@"time".zone }
+	func (@"time".lÂ·2 *@"time".Location "esc:0x22") String () (? string)
+	func (@"time".lÂ·2 *@"time".Location "esc:0x1") @"time".firstZoneUsed () (? bool)
+	func (@"time".lÂ·2 *@"time".Location "esc:0x12") @"time".get () (? *@"time".Location)
+	func (@"time".lÂ·6 *@"time".Location "esc:0x32") @"time".lookup (@"time".secÂ·7 int64) (@"time".nameÂ·1 string, @"time".offsetÂ·2 int, @"time".isDSTÂ·3 bool, @"time".startÂ·4 int64, @"time".endÂ·5 int64)
+	func (@"time".lÂ·2 *@"time".Location "esc:0x1") @"time".lookupFirstZone () (? int)
+	func (@"time".lÂ·4 *@"time".Location "esc:0x1") @"time".lookupName (@"time".nameÂ·5 string "esc:0x1", @"time".unixÂ·6 int64) (@"time".offsetÂ·1 int, @"time".isDSTÂ·2 bool, @"time".okÂ·3 bool)
+	type @"time".Duration int64
+	func (@"time".dÂ·2 @"time".Duration) Hours () (? float64) { var @"time".hourÂ·3 @"time".Duration; ; @"time".hourÂ·3 = @"time".dÂ·2 / @"time".Duration(0x34630b8a000); var @"time".nsecÂ·4 @"time".Duration; ; @"time".nsecÂ·4 = @"time".dÂ·2 % @"time".Duration(0x34630b8a000); return float64(@"time".hourÂ·3) + float64(@"time".nsecÂ·4) * float64(8190022623310637111963488201822504381538623676021880892417778544696899264837610290203272971060556344039023584360473938041055625214280336402169897364226048p-553) }
+	func (@"time".dÂ·2 @"time".Duration) Minutes () (? float64) { var @"time".minÂ·3 @"time".Duration; ; @"time".minÂ·3 = @"time".dÂ·2 / @"time".Duration(0xdf8475800); var @"time".nsecÂ·4 @"time".Duration; ; @"time".nsecÂ·4 = @"time".dÂ·2 % @"time".Duration(0xdf8475800); return float64(@"time".minÂ·3) + float64(@"time".nsecÂ·4) * float64(7678146209353722106395056769533233877065564876941352542109479049699919628723768656821910653339403201031675627614471533358284117434246264392176261853609984p-547) }
+	func (@"time".dÂ·2 @"time".Duration) Nanoseconds () (? int64) { return int64(@"time".dÂ·2) }
+	func (@"time".dÂ·2 @"time".Duration) Seconds () (? float64) { var @"time".secÂ·3 @"time".Duration; ; @"time".secÂ·3 = @"time".dÂ·2 / @"time".Duration(0x3b9aca00); var @"time".nsecÂ·4 @"time".Duration; ; @"time".nsecÂ·4 = @"time".dÂ·2 % @"time".Duration(0x3b9aca00); return float64(@"time".secÂ·3) + float64(@"time".nsecÂ·4) * float64(7198262071269114660816079141112770740375861891461678802759824945047098083990024106014198994535558872472104883612039846078596891298747423852523262413111296p-541) }
+	func (@"time".dÂ·2 @"time".Duration) String () (? string)
+	type @"time".Month int
+	func (@"time".mÂ·2 @"time".Month) String () (? string) { return @"time".months[@"time".mÂ·2 - @"time".Month(0x1)] }
+	type @"time".Weekday int
+	func (@"time".dÂ·2 @"time".Weekday) String () (? string) { return @"time".days[@"time".dÂ·2] }
+	type @"time".Time struct { @"time".sec int64; @"time".nsec int32; @"time".loc *@"time".Location }
+	func (@"time".tÂ·2 @"time".Time "esc:0x12") Add (@"time".dÂ·3 @"time".Duration) (? @"time".Time) { @"time".tÂ·2.@"time".sec += int64(@"time".dÂ·3 / @"time".Duration(0x3b9aca00)); var @"time".nsecÂ·4 int32; ; @"time".nsecÂ·4 = int32(@"time".tÂ·2.@"time".nsec) + int32(@"time".dÂ·3 % @"time".Duration(0x3b9aca00)); if @"time".nsecÂ·4 >= int32(0x3b9aca00) { @"time".tÂ·2.@"time".sec++; @"time".nsecÂ·4 -= int32(0x3b9aca00) } else { if @"time".nsecÂ·4 < int32(0x0) { @"time".tÂ·2.@"time".sec--; @"time".nsecÂ·4 += int32(0x3b9aca00) } }; @"time".tÂ·2.@"time".nsec = @"time".nsecÂ·4; return @"time".tÂ·2 }
+	func (@"time".tÂ·2 @"time".Time "esc:0x12") AddDate (@"time".yearsÂ·3 int, @"time".monthsÂ·4 int, @"time".daysÂ·5 int) (? @"time".Time)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") After (@"time".uÂ·3 @"time".Time "esc:0x1") (? bool) { return @"time".tÂ·2.@"time".sec > @"time".uÂ·3.@"time".sec || @"time".tÂ·2.@"time".sec == @"time".uÂ·3.@"time".sec && @"time".tÂ·2.@"time".nsec > @"time".uÂ·3.@"time".nsec }
+	func (@"time".tÂ·2 @"time".Time "esc:0x9") AppendFormat (@"time".bÂ·3 []byte "esc:0x1a", @"time".layoutÂ·4 string "esc:0x9") (? []byte)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") Before (@"time".uÂ·3 @"time".Time "esc:0x1") (? bool) { return @"time".tÂ·2.@"time".sec < @"time".uÂ·3.@"time".sec || @"time".tÂ·2.@"time".sec == @"time".uÂ·3.@"time".sec && @"time".tÂ·2.@"time".nsec < @"time".uÂ·3.@"time".nsec }
+	func (@"time".tÂ·4 @"time".Time "esc:0x1") Clock () (@"time".hourÂ·1 int, @"time".minÂ·2 int, @"time".secÂ·3 int)
+	func (@"time".tÂ·4 @"time".Time "esc:0x1") Date () (@"time".yearÂ·1 int, @"time".monthÂ·2 @"time".Month, @"time".dayÂ·3 int)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") Day () (? int)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") Equal (@"time".uÂ·3 @"time".Time "esc:0x1") (? bool) { return @"time".tÂ·2.@"time".sec == @"time".uÂ·3.@"time".sec && @"time".tÂ·2.@"time".nsec == @"time".uÂ·3.@"time".nsec }
+	func (@"time".tÂ·2 @"time".Time "esc:0x9") Format (@"time".layoutÂ·3 string "esc:0x9") (? string)
+	func (@"time".tÂ·2 *@"time".Time "esc:0x1") GobDecode (@"time".dataÂ·3 []byte "esc:0x1") (? error)
+	func (@"time".tÂ·3 @"time".Time "esc:0x1") GobEncode () (? []byte, ? error)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") Hour () (? int)
+	func (@"time".tÂ·3 @"time".Time "esc:0x1") ISOWeek () (@"time".yearÂ·1 int, @"time".weekÂ·2 int)
+	func (@"time".tÂ·2 @"time".Time "esc:0x12") In (@"time".locÂ·3 *@"time".Location "esc:0x12") (? @"time".Time)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") IsZero () (? bool) { return @"time".tÂ·2.@"time".sec == int64(0x0) && @"time".tÂ·2.@"time".nsec == int32(0x0) }
+	func (@"time".tÂ·2 @"time".Time "esc:0x12") Local () (? @"time".Time) { @"time".tÂ·2.@"time".loc = @"time".Local; return @"time".tÂ·2 }
+	func (@"time".tÂ·2 @"time".Time "esc:0x12") Location () (? *@"time".Location) { var @"time".lÂ·3 *@"time".Location; ; @"time".lÂ·3 = @"time".tÂ·2.@"time".loc; if @"time".lÂ·3 == nil { @"time".lÂ·3 = @"time".UTC }; return @"time".lÂ·3 }
+	func (@"time".tÂ·3 @"time".Time "esc:0x1") MarshalBinary () (? []byte, ? error)
+	func (@"time".tÂ·3 @"time".Time "esc:0x9") MarshalJSON () (? []byte, ? error)
+	func (@"time".tÂ·3 @"time".Time "esc:0x9") MarshalText () (? []byte, ? error)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") Minute () (? int)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") Month () (? @"time".Month)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") Nanosecond () (? int) { return int(@"time".tÂ·2.@"time".nsec) }
+	func (@"time".tÂ·2 @"time".Time "esc:0x12") Round (@"time".dÂ·3 @"time".Duration) (? @"time".Time)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") Second () (? int)
+	func (@"time".tÂ·2 @"time".Time "esc:0x9") String () (? string)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") Sub (@"time".uÂ·3 @"time".Time "esc:0x1") (? @"time".Duration)
+	func (@"time".tÂ·2 @"time".Time "esc:0x12") Truncate (@"time".dÂ·3 @"time".Duration) (? @"time".Time)
+	func (@"time".tÂ·2 @"time".Time "esc:0x12") UTC () (? @"time".Time) { @"time".tÂ·2.@"time".loc = @"time".UTC; return @"time".tÂ·2 }
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") Unix () (? int64) { return @"time".tÂ·2.@"time".sec + int64(-0xe7791f700) }
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") UnixNano () (? int64) { return (@"time".tÂ·2.@"time".sec + int64(-0xe7791f700)) * int64(0x3b9aca00) + int64(@"time".tÂ·2.@"time".nsec) }
+	func (@"time".tÂ·2 *@"time".Time "esc:0x1") UnmarshalBinary (@"time".dataÂ·3 []byte "esc:0x1") (? error)
+	func (@"time".tÂ·2 *@"time".Time "esc:0x1") UnmarshalJSON (@"time".dataÂ·3 []byte "esc:0x1") (@"time".errÂ·1 error)
+	func (@"time".tÂ·2 *@"time".Time "esc:0x1") UnmarshalText (@"time".dataÂ·3 []byte "esc:0x1") (@"time".errÂ·1 error)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") Weekday () (? @"time".Weekday)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") Year () (? int)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") YearDay () (? int)
+	func (@"time".tÂ·3 @"time".Time "esc:0x32") Zone () (@"time".nameÂ·1 string, @"time".offsetÂ·2 int)
+	func (@"time".tÂ·2 @"time".Time "esc:0x1") @"time".abs () (? uint64)
+	func (@"time".tÂ·5 @"time".Time "esc:0x1") @"time".date (@"time".fullÂ·6 bool) (@"time".yearÂ·1 int, @"time".monthÂ·2 @"time".Month, @"time".dayÂ·3 int, @"time".ydayÂ·4 int)
+	func (@"time".tÂ·4 @"time".Time "esc:0x32") @"time".locabs () (@"time".nameÂ·1 string, @"time".offsetÂ·2 int, @"time".absÂ·3 uint64)
+	type @"log".Logger struct { @"log".mu @"sync".Mutex; @"log".prefix string; @"log".flag int; @"log".out @"io".Writer; @"log".buf []byte }
+	func (@"log".lÂ·1 *@"log".Logger) Fatal (@"log".vÂ·2 ...interface {} "esc:0x9")
+	func (@"log".lÂ·1 *@"log".Logger) Fatalf (@"log".formatÂ·2 string "esc:0x9", @"log".vÂ·3 ...interface {} "esc:0x9")
+	func (@"log".lÂ·1 *@"log".Logger) Fatalln (@"log".vÂ·2 ...interface {} "esc:0x9")
+	func (@"log".lÂ·2 *@"log".Logger) Flags () (? int)
+	func (@"log".lÂ·2 *@"log".Logger) Output (@"log".calldepthÂ·3 int, @"log".sÂ·4 string "esc:0x9") (? error)
+	func (@"log".lÂ·1 *@"log".Logger) Panic (@"log".vÂ·2 ...interface {} "esc:0x9")
+	func (@"log".lÂ·1 *@"log".Logger) Panicf (@"log".formatÂ·2 string "esc:0x9", @"log".vÂ·3 ...interface {} "esc:0x9")
+	func (@"log".lÂ·1 *@"log".Logger) Panicln (@"log".vÂ·2 ...interface {} "esc:0x9")
+	func (@"log".lÂ·2 *@"log".Logger) Prefix () (? string)
+	func (@"log".lÂ·1 *@"log".Logger) Print (@"log".vÂ·2 ...interface {} "esc:0x9")
+	func (@"log".lÂ·1 *@"log".Logger) Printf (@"log".formatÂ·2 string "esc:0x9", @"log".vÂ·3 ...interface {} "esc:0x9")
+	func (@"log".lÂ·1 *@"log".Logger) Println (@"log".vÂ·2 ...interface {} "esc:0x9")
+	func (@"log".lÂ·1 *@"log".Logger) SetFlags (@"log".flagÂ·2 int)
+	func (@"log".lÂ·1 *@"log".Logger) SetOutput (@"log".wÂ·2 @"io".Writer)
+	func (@"log".lÂ·1 *@"log".Logger) SetPrefix (@"log".prefixÂ·2 string)
+	func (@"log".lÂ·1 *@"log".Logger "esc:0x9") @"log".formatHeader (@"log".bufÂ·2 *[]byte "esc:0x9", @"log".tÂ·3 @"time".Time "esc:0x1", @"log".fileÂ·4 string "esc:0x9", @"log".lineÂ·5 int)
+	type @"github.com/HewlettPackard/gas/core".Metrics struct { NumFiles int "json:\"files\""; NumLines int "json:\"lines\""; NumNosec int "json:\"nosec\""; NumFound int "json:\"found\"" }
+	type @"go/ast".Visitor interface { Visit(@"go/ast".node @"go/ast".Node) (@"go/ast".w @"go/ast".Visitor) }
+	type @"github.com/HewlettPackard/gas/core".Analyzer struct { @"github.com/HewlettPackard/gas/core".ignoreNosec bool; @"github.com/HewlettPackard/gas/core".ruleset @"github.com/HewlettPackard/gas/core".RuleSet; @"github.com/HewlettPackard/gas/core".context @"github.com/HewlettPackard/gas/core".Context; @"github.com/HewlettPackard/gas/core".logger *@"log".Logger; Issues []@"github.com/HewlettPackard/gas/core".Issue "json:\"issues\""; Stats @"github.com/HewlettPackard/gas/core".Metrics "json:\"metrics\"" }
+	func (@"github.com/HewlettPackard/gas/core".gasÂ·1 *@"github.com/HewlettPackard/gas/core".Analyzer "esc:0x1") AddRule (@"github.com/HewlettPackard/gas/core".rÂ·2 @"github.com/HewlettPackard/gas/core".Rule, @"github.com/HewlettPackard/gas/core".nÂ·3 @"go/ast".Node) { var @"github.com/HewlettPackard/gas/core".tÂ·4 @"reflect".Type; ; @"github.com/HewlettPackard/gas/core".tÂ·4 = @"reflect".TypeOf(@"github.com/HewlettPackard/gas/core".nÂ·3); var @"github.com/HewlettPackard/gas/core".valÂ·5 []@"github.com/HewlettPackard/gas/core".Rule; ; var @"github.com/HewlettPackard/gas/core".okÂ·6 bool; ; @"github.com/HewlettPackard/gas/core".valÂ·5, @"github.com/HewlettPackard/gas/core".okÂ·6 = @"github.com/HewlettPackard/gas/core".gasÂ·1.@"github.com/HewlettPackard/gas/core".ruleset[@"github.com/HewlettPackard/gas/core".tÂ·4]; if @"github.com/HewlettPackard/gas/core".okÂ·6 { @"github.com/HewlettPackard/gas/core".gasÂ·1.@"github.com/HewlettPackard/gas/core".ruleset[@"github.com/HewlettPackard/gas/core".tÂ·4] = append(@"github.com/HewlettPackard/gas/core".valÂ·5, @"github.com/HewlettPackard/gas/core".rÂ·2) } else { @"github.com/HewlettPackard/gas/core".gasÂ·1.@"github.com/HewlettPackard/gas/core".ruleset[@"github.com/HewlettPackard/gas/core".tÂ·4] = ([]@"github.com/HewlettPackard/gas/core".Rule{ int(0x0):@"github.com/HewlettPackard/gas/core".rÂ·2 }) } }
+	func (@"github.com/HewlettPackard/gas/core".gasÂ·2 *@"github.com/HewlettPackard/gas/core".Analyzer "esc:0x1") Ignore (@"github.com/HewlettPackard/gas/core".nÂ·3 @"go/ast".Node "esc:0x1") (? bool)
+	func (@"github.com/HewlettPackard/gas/core".gasÂ·2 *@"github.com/HewlettPackard/gas/core".Analyzer) Process (@"github.com/HewlettPackard/gas/core".filenameÂ·3 string) (? error)
+	func (@"github.com/HewlettPackard/gas/core".gasÂ·2 *@"github.com/HewlettPackard/gas/core".Analyzer) ProcessSource (@"github.com/HewlettPackard/gas/core".filenameÂ·3 string, @"github.com/HewlettPackard/gas/core".sourceÂ·4 string) (? error)
+	func (@"github.com/HewlettPackard/gas/core".gasÂ·2 *@"github.com/HewlettPackard/gas/core".Analyzer) Visit (@"github.com/HewlettPackard/gas/core".nÂ·3 @"go/ast".Node) (? @"go/ast".Visitor)
+	func (@"github.com/HewlettPackard/gas/core".gasÂ·2 *@"github.com/HewlettPackard/gas/core".Analyzer) @"github.com/HewlettPackard/gas/core".process (@"github.com/HewlettPackard/gas/core".filenameÂ·3 string, @"github.com/HewlettPackard/gas/core".sourceÂ·4 interface {}) (? error)
+	func @"".CreateReport (@"".wÂ·2 @"io".Writer, @"".formatÂ·3 string "esc:0x1", @"".dataÂ·4 *@"github.com/HewlettPackard/gas/core".Analyzer) (? error)
+	func @"".init ()
+	type @"sync".rlocker struct { @"sync".w @"sync".Mutex; @"sync".writerSem uint32; @"sync".readerSem uint32; @"sync".readerCount int32; @"sync".readerWait int32 }
+	func (@"sync".rÂ·1 *@"sync".rlocker) Lock ()
+	func (@"sync".rÂ·1 *@"sync".rlocker) Unlock ()
+	type @"go/types".BasicKind int
+	type @"go/types".BasicInfo int
+	type @"go/types".Basic struct { @"go/types".kind @"go/types".BasicKind; @"go/types".info @"go/types".BasicInfo; @"go/types".name string }
+	func (@"go/types".bÂ·2 *@"go/types".Basic "esc:0x1") Info () (? @"go/types".BasicInfo) { return @"go/types".bÂ·2.@"go/types".info }
+	func (@"go/types".bÂ·2 *@"go/types".Basic "esc:0x1") Kind () (? @"go/types".BasicKind) { return @"go/types".bÂ·2.@"go/types".kind }
+	func (@"go/types".bÂ·2 *@"go/types".Basic "esc:0x22") Name () (? string) { return @"go/types".bÂ·2.@"go/types".name }
+	func (@"go/types".tÂ·2 *@"go/types".Basic) String () (? string)
+	func (@"go/types".tÂ·2 *@"go/types".Basic "esc:0x12") Underlying () (? @"go/types".Type) { return @"go/types".tÂ·2 }
+	var @"go/types".Typ []*@"go/types".Basic
+	var @"go/ast".objKindStrings [7]string
+	type @"reflect".imethod struct { @"reflect".name *string; @"reflect".pkgPath *string; @"reflect".typ *@"reflect".rtype }
+	type @"reflect".interfaceType struct { @"reflect".? @"reflect".rtype "reflect:\"interface\""; @"reflect".methods []@"reflect".imethod }
+	func (@"reflect".tÂ·2 *@"reflect".interfaceType "esc:0x32") Method (@"reflect".iÂ·3 int) (@"reflect".mÂ·1 @"reflect".Method) { if @"reflect".iÂ·3 < int(0x0) || @"reflect".iÂ·3 >= len(@"reflect".tÂ·2.@"reflect".methods) { return  }; var @"reflect".pÂ·4 *@"reflect".imethod; ; @"reflect".pÂ·4 = &@"reflect".tÂ·2.@"reflect".methods[@"reflect".iÂ·3]; @"reflect".mÂ·1.Name = *@"reflect".pÂ·4.@"reflect".name; if @"reflect".pÂ·4.@"reflect".pkgPath != nil { @"reflect".mÂ·1.PkgPath = *@"reflect".pÂ·4.@"reflect".pkgPath }; @"reflect".mÂ·1.Type = @"reflect".toType(@"reflect".pÂ·4.@"reflect".typ); @"reflect".mÂ·1.Index = @"reflect".iÂ·3; return  }
+	func (@"reflect".tÂ·3 *@"reflect".interfaceType "esc:0x32") MethodByName (@"reflect".nameÂ·4 string "esc:0x1") (@"reflect".mÂ·1 @"reflect".Method, @"reflect".okÂ·2 bool)
+	func (@"reflect".tÂ·2 *@"reflect".interfaceType "esc:0x1") NumMethod () (? int) { return len(@"reflect".tÂ·2.@"reflect".methods) }
+	import unsafe "unsafe" // indirect
+	var @"time".months [12]string
+	var @"time".days [7]string
+	var @"time".Local *@"time".Location
+	var @"time".UTC *@"time".Location
+	func @"reflect".TypeOf (@"reflect".iÂ·2 interface {} "esc:0x12") (? @"reflect".Type) { var @"reflect".efaceÂ·3 @"reflect".emptyInterface; ; @"reflect".efaceÂ·3 = *(*@"reflect".emptyInterface)(@"unsafe".Pointer(&@"reflect".iÂ·2)); return @"reflect".toType(@"reflect".efaceÂ·3.@"reflect".typ) }
+	func @"reflect".toType (@"reflect".tÂ·2 *@"reflect".rtype "esc:0x12") (? @"reflect".Type) { if @"reflect".tÂ·2 == nil { return nil }; return @"reflect".tÂ·2 }
+	type @"reflect".emptyInterface struct { @"reflect".typ *@"reflect".rtype; @"reflect".word @"unsafe".Pointer }
+
+$$
+ _go_.o          0           0     0     644     34201     `
+go object darwin amd64 go1.6.2 X:none
+
+!
+  go13ldencoding/csv.aencoding/json.aio.astrconv.atext/template.aHgithub.com/HewlettPackard/gas/core.a ş"".CreateReport  À  ÀeH‹%    H;a†  HƒìX1ÛH‰œ$ˆ   H‰œ$   1ÛH‰\$8H‰\$@H‹L$pH‰L$HH‹D$xHƒø…€   H‰$H‰D$PH‰D$H-    H‰l$HÇD$   è    H‹L$HH‹D$P¶\$ €û tDH‹\$`H‰$H‹\$hH‰\$H‹œ$€   H‰\$è    H‹L$H‹D$ H‰Œ$ˆ   H‰„$   HƒÄXÃHƒøupH‰$H‰D$PH‰D$H-    H‰l$HÇD$   è    H‹L$HH‹D$P¶\$ €û t4H‹\$`H‰$H‹\$hH‰\$H‹œ$€   H‰\$è    H‹L$H‹D$ éuÿÿÿH‰D$PHƒøuyH‰$H‰D$H-    H‰l$HÇD$   è    ¶\$ €û tLH‹\$`H‰$H‹\$hH‰\$H‹    H‰\$H‹    H‰\$H‹œ$€   H‰\$ è    H‹L$(H‹D$0éñşÿÿH‹\$`H‰$H‹\$hH‰\$H‹    H‰\$H‹    H‰\$H‹œ$€   H‰\$ è    H‹L$(H‹D$0é¥şÿÿè    éâıÿÿÌÌ 
+      ¾  go.string."csv"   ä   runtime.eqstring   Ö  "".reportCSV   Ê   go.string."json"   ğ   runtime.eqstring   â  "".reportJSON   ¶   go.string."text"   Ü   runtime.eqstring   ¤  "".text   ¼ "".text   ê  *"".reportFromTemplate   ¼  "".text   Ô "".text   ‚  *"".reportFromTemplate   ª  0runtime.morestack_noctxt   p°  "".autotmp_0000 type.string "".err ?type.error "".~r3 Ptype.error "".data @btype.*github.com/HewlettPackard/gas/core.Analyzer "".format  type.string "".w  type.io.Writer "°¶¯°Æ¯   >f)F/B/	8GG  q9M9ğ TgclocalsÂ·f32b7642ea58c8999c3997f8ff4a7ce0 TgclocalsÂ·44750c784da4dd430afdd97fea5c405a   ô/Users/gabbyjameson/go/src/github.com/alecthomas/gometalinter/vendor/src/github.com/HewlettPackard/gas/output/formatter.goş"".reportJSON  à  àeH‹%    HD$ğH;A†N  Hì   1ÀH‰„$°   H‰„$¸   H‹Œ$¨   H    H‰D$hH‰$H‰L$pH‰L$1ÛH‰\$H‰\$H    H‰\$ HÇD$(   è    H‹t$0H‰t$xH‹l$8H‰¬$€   H‹T$@H‰”$ˆ   H‹D$HH‹L$PH‰L$`H‰D$XHƒø t*H‰$H‰L$è    H\$H‹H‰$H‹KH‰L$è    H‰t$H‰l$H‰T$H‹œ$    H‰$H‹œ$˜   H‹[ ÿÓH‹D$(H‹L$0Hƒø t4H‰D$XH‰$H‰L$`H‰L$è    H\$H‹H‰$H‹KH‰L$è    H‰„$°   H‰Œ$¸   HÄ   Ãè    éşÿÿ
+      x  btype.*github.com/HewlettPackard/gas/core.Analyzer   Ä  go.string."\t"   ê  6encoding/json.MarshalIndent   ‚  runtime.convI2E   ¶  runtime.gopanic          Ü  runtime.convI2E     runtime.gopanic   Î  0runtime.morestack_noctxt   P   
+"".err otype.error "".raw /type.[]uint8 "".~r2 0type.error "".data  btype.*github.com/HewlettPackard/gas/core.Analyzer "".w  type.io.Writer  ÆŸ ğ („1{*34
+  tü TgclocalsÂ·13bdb4aeeaf63de3cc223d640262ea59 TgclocalsÂ·627bbca91efe935c3ac76737d2026ca6   ô/Users/gabbyjameson/go/src/github.com/alecthomas/gometalinter/vendor/src/github.com/HewlettPackard/gas/output/formatter.goş"".reportCSV  à  àeH‹%    H„$pşÿÿH;A†ˆ  Hì  WÀH¼$  è    1ÛH‰œ$0  H‰œ$8  H‹œ$  H‹Œ$   H‰\$hH‰L$pH‰\$XH‰L$`H‰Œ$€   HÇÀ   H‰\$x1íH9ëtH‹[H-    H9ë…  HÇÂ   €ú „å  H‹YH9ÃŒØ  H‰ÈH‰Á1À‰„$˜   ˆ„$œ   H‰„$    H„$˜   1í‰(@ˆhH‰hÇ ,   H‰HH‰D$@H‰D$Ç$   H    H‰D$è    ƒø …c  H‹œ$(  Hƒû „J  H‹s8H‹K@H‹kHH‰¬$   1ÒH‰Œ$ø   H‰L$0H‰´$ğ   H‰ñH‹l$0H9ê§  H‰ÎH‰L$HHƒù „õ  H¼$h  è    H¥H‰T$8H´$h  H¼$   è    H¥H‹œ$`  H‰$è    H‹\$H‰œ$È   H‹\$H‰œ$Ğ   H‹œ$   H‰$è    H‹\$H‰œ$¸   H‹\$H‰œ$À   H‹œ$(  H‰$è    H‹\$H‰œ$¨   H‹\$H‰œ$°   H¼$°  WÀHƒÇàè    Hœ$°  Hƒû „  HÇ„$à      HÇ„$è      H‰ØHœ$@  H‰„$Ø   H‰D$H‰\$H    H‰$è    H‹œ$Ø   H‹¬$Ğ   HƒÃH‰kH‹¬$È   €=     …—  H‰+Hœ$0  H‹¬$Ø   HƒÅ H‰l$H‰\$H    H‰$è    H‹œ$Ø   H‹¬$À   HƒÃ0H‰kH‹¬$¸   €=     …&  H‰+H‹œ$Ø   H‹¬$°   HƒÃ@H‰kH‹¬$¨   €=     …ã   H‰+Hœ$P  H‹¬$Ø   HƒÅPH‰l$H‰\$H    H‰$è    H‹\$@H‰$H‹œ$Ø   H‰\$H‹œ$à   H‰\$H‹œ$è   H‰\$è    H‹L$ H‹T$(H‰”$   H‰Œ$ˆ   Hƒù tH‰Œ$0  H‰”$8  è    HÄ  ÃH‹L$HH‹T$8HƒÁHHÿÂH‹l$0H9êŒYıÿÿ1ÛH‰œ$0  H‰œ$8  è    HÄ  ÃH‰$H‰l$è    éÿÿÿH‰$H‰l$è    éÊşÿÿH‰$H‰l$è    éYşÿÿ‰éİıÿÿ‰éıÿÿ‰é¯üÿÿè    HÄ  ÃHƒø HÇÀ   H    H‰$H‰D$H‰D$è    H‹\$H‰œ$  H‹\$ H‰œ$  H‹\$(H‰œ$  H    H‰$è    H‹D$1íH‰(H‰hH‰hH‰hH‰h H‰h(H‰h0H‰h8H‰D$PH‹¬$  H‰hH‹¬$  H‰h H‹¬$  €=     uCH‰hH‹l$xH‰h0H‹¬$€   €=     u	H‰h8éRûÿÿL@8L‰$H‰l$è    H‹D$Pé6ûÿÿL@L‰$H‰l$è    H‹D$Pë¨1É1Òéûúÿÿè    éSúÿÿÌÌÌH
+      \¢  runtime.duffzero   ”  $type.*bufio.Writer   ˆ  >encoding/csv.(*Writer).FlushÂ·f   œ  "runtime.deferproc   ˆ  runtime.duffcopy   À  runtime.duffcopy   æ  strconv.Itoa   ¼  ^github.com/HewlettPackard/gas/core.Score.String   ’  ^github.com/HewlettPackard/gas/core.Score.String   î¢  runtime.duffzero   Š
+  type.string   œ
+  (runtime.typedmemmove   è
+ (runtime.writeBarrier   Æ  type.string   Ø  (runtime.typedmemmove   ¤ (runtime.writeBarrier   „ (runtime.writeBarrier   â  type.string   ô  (runtime.typedmemmove   Ş  8encoding/csv.(*Writer).Write   Ê  &runtime.deferreturn   È  &runtime.deferreturn   ô  .runtime.writebarrierptr   š  .runtime.writebarrierptr   À  .runtime.writebarrierptr   €  &runtime.deferreturn   ¸  type.[]uint8   Ş  "runtime.makeslice   º  "type.bufio.Writer   Ì  "runtime.newobject   î (runtime.writeBarrier   ª (runtime.writeBarrier   æ  .runtime.writebarrierptr     .runtime.writebarrierptr   È  0runtime.morestack_noctxt   P   6"".autotmp_0024 ¿type.[6]string "".autotmp_0021 ïtype.[]string "".autotmp_0020 ÏZtype.github.com/HewlettPackard/gas/core.Issue "".autotmp_0019 \type.*github.com/HewlettPackard/gas/core.Issue "".autotmp_0018 ¿type.int "".autotmp_0017  type.int "".autotmp_0016 ï0type.encoding/csv.Writer "".autotmp_0014  2type.*encoding/csv.Writer "".autotmp_0013  $type.*bufio.Writer "".autotmp_0012  $type.*bufio.Writer "".autotmp_0011  $type.*bufio.Writer "".autotmp_0010 Ïtype.string "".autotmp_0009 ¯type.string "".autotmp_0008 type.string "".autotmp_0007 ¿^type.[]github.com/HewlettPackard/gas/core.Issue "".autotmp_0006 type.[]uint8 "".autotmp_0005 ¯type.int "".autotmp_0004 ÿ$type.*bufio.Writer bufio.wÂ·2 ¯type.io.Writer bufio.wÂ·2 ïtype.io.Writer "encoding/csv.wÂ·2 Ïtype.io.Writer "".err type.error "".issue ßZtype.github.com/HewlettPackard/gas/core.Issue "".out Ÿ2type.*encoding/csv.Writer "".~r2 0type.error "".data  btype.*github.com/HewlettPackard/gas/core.Analyzer "".w  type.io.Writer :" ÎŸ >Ÿ [Ÿ —Ÿ ° xD¬+‹+++	AZ.0 — T ¥++…^55V	0	7" TgclocalsÂ·74a868152ebf2ce43aea351cc697c371 TgclocalsÂ·4e60eba15a12281ce9e5ff0ea21a42f9   ô/Users/gabbyjameson/go/src/github.com/alecthomas/gometalinter/vendor/src/github.com/HewlettPackard/gas/output/formatter.goş*"".reportFromTemplate      eH‹%    HD$øH;A†)  Hìˆ   1ÛH‰œ$¸   H‰œ$À   H    H‰\$XHÇD$`   H    H‰$è    H‹D$1íH‰(H‰hH‰hH‰hH‰h H‰h(H‰h0H‰h8H‰D$PH‹l$`H‰hH‹l$X€=     …  H‰(H‰D$8H‹\$8H‰\$@H‹[1íH9ë….  H    H‰$è    H‹\$H‰\$HH    H‰$HÇD$    HÇD$    HÇD$    è    H‹D$ H‹\$HHƒû „  €=     …ì  H‰H    H‰$HÇD$    HÇD$    HÇD$    è    H‹D$ H‹\$HHƒû „£  €=     …  H‰C(H    H‰$HÇD$    HÇD$    HÇD$    è    H‹D$ H‹\$HHƒû „5  €=     …  H‰C0H‹\$@Hƒû „÷   H‹l$H€=     …Î   H‰kH‹\$8H‰$H‹œ$    H‰\$H‹œ$¨   H‰\$è    H‹L$H‹D$ H‹T$(H‰T$pH‰D$hHƒø tH‰„$¸   H‰”$À   HÄˆ   ÃH‹„$°   H‰$H‹œ$   H‰\$H‹œ$˜   H‰\$H    H‰\$xH‰\$H‰„$€   H‰D$ è    H‹L$(H‹D$0H‰Œ$¸   H‰„$À   HÄˆ   ÃLCL‰$H‰l$è    éÿÿÿ‰éÿÿÿLC0L‰$H‰D$è    éÜşÿÿ‰éÄşÿÿLC(L‰$H‰D$è    énşÿÿ‰éVşÿÿH‰$H‰D$è    éşÿÿ‰éíıÿÿH‰$H‰l$è    H‹D$Pé^ıÿÿè    éµüÿÿÌÌÌÌÌ4
+      h  go.string."gas"   ’  6type.text/template.Template   ¤  "runtime.newobject   ¢ (runtime.writeBarrier   €  2type.text/template.common   ’  "runtime.newobject   ´  Ntype.map[string]*text/template.Template   ü  runtime.makemap   ° (runtime.writeBarrier   Ò  4type.text/template.FuncMap   š  runtime.makemap   Î (runtime.writeBarrier   ò  :type.map[string]reflect.Value   º  runtime.makemap   î (runtime.writeBarrier   ¸ (runtime.writeBarrier     >text/template.(*Template).Parse   æ	  btype.*github.com/HewlettPackard/gas/core.Analyzer   
+  Btext/template.(*Template).Execute   †  .runtime.writebarrierptr   Â  .runtime.writebarrierptr   ş  .runtime.writebarrierptr   ²  .runtime.writebarrierptr   æ  .runtime.writebarrierptr   „  0runtime.morestack_noctxt   p  "".autotmp_0030 o8type.*text/template.Template $text/template.cÂ·2 4type.*text/template.common $text/template.tÂ·1 8type.*text/template.Template $text/template.tÂ·3 Ÿ8type.*text/template.Template *text/template.nameÂ·2 _type.string "".e ?type.error "".~r3 Ptype.error "".data @btype.*github.com/HewlettPackard/gas/core.Analyzer """.reportTemplate  type.string "".w  type.io.Writer .ªjŒ Ğ $Ä1ök	Œ & Qw5‘´
+R TgclocalsÂ·b5c717c15d407fb393979a28f905751b TgclocalsÂ·fe6d737227bc51c28a115475f64fb682   ô/Users/gabbyjameson/go/src/github.com/alecthomas/gometalinter/vendor/src/github.com/HewlettPackard/gas/output/formatter.goş"".init  à  àeH‹%    H;avM¶    €û t¶    €ûuÃè    Æ    è    è    è    è    è    è    Æ    Ãè    ëÌÌÌÌÌÌÌÌÌÌÌÌÌ
+      $  "".initdoneÂ·   <  "".initdoneÂ·   R  "runtime.throwinit   b "".initdoneÂ·   n  "encoding/csv.init   x  $encoding/json.init   ‚  io.init   Œ  strconv.init   –  $text/template.init      Ngithub.com/HewlettPackard/gas/core.init   ¬ "".initdoneÂ·   º  0runtime.morestack_noctxt        p p Òp 
+ (H TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ô/Users/gabbyjameson/go/src/github.com/alecthomas/gometalinter/vendor/src/github.com/HewlettPackard/gas/output/formatter.goş(type..hash.[6]string     eH‹%    H;avpHƒì(H‹L$81ÀHÇD$   H‹l$H9è}DH‰D$ H‹\$0Hƒû t>H‰ÅHÁåHëH‰$H‰L$8H‰L$è    H‹L$H‹D$ HÿÀH‹l$H9è|¼H‰L$@HƒÄ(Ã‰ë¾è    éwÿÿÿÌÌÌÌÌÌÌ
+      ¬  runtime.strhash   €  0runtime.morestack_noctxt   0P  
+"".autotmp_0034 type.int "".autotmp_0033 type.int "".~r2  type.uintptr "".h type.uintptr "".p  type.*[6]string PgOPO   
+ U; TgclocalsÂ·0b86ef39f3fed835f14ba5f4d7c62fa2 TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ô/Users/gabbyjameson/go/src/github.com/alecthomas/gometalinter/vendor/src/github.com/HewlettPackard/gas/output/formatter.goş$type..eq.[6]string à  àeH‹%    H;a†Î   HƒìX1ÀHÇD$(   H‹l$(H9è’   H‰D$0H‹\$`Hƒû „–   H‰ÅHÁåHëH‹3H‹KH‹\$hHƒû tvH‰ÅHÁåHëH‹H‹CH9ÁuVH‰t$HH‰4$H‰L$PH‰L$H‰T$8H‰T$H‰D$@H‰D$è    ¶\$ €û t H‹D$0HÿÀH‹l$(H9èŒnÿÿÿÆD$pHƒÄXÃÆD$p HƒÄXÃ‰ë†‰écÿÿÿè    éÿÿÿÌÌÌÌÌ
+      ¼   runtime.eqstring   Ä  0runtime.morestack_noctxt   0°  "".autotmp_0038 ?type.string "".autotmp_0037 type.string "".autotmp_0036 _type.int "".autotmp_0035 Otype.int "".~r2  type.bool "".q type.*[6]string "".p  type.*[6]string ,°´¯°	¯°¯ ğ ğ  S TgclocalsÂ·3bb21ca8fe1d99a3e492463bd711418a TgclocalsÂ·a8eabfc4a4514ed6b3b0c61e9680e440   ô/Users/gabbyjameson/go/src/github.com/alecthomas/gometalinter/vendor/src/github.com/HewlettPackard/gas/output/formatter.goş(type..hash.[8]string     eH‹%    H;avpHƒì(H‹L$81ÀHÇD$   H‹l$H9è}DH‰D$ H‹\$0Hƒû t>H‰ÅHÁåHëH‰$H‰L$8H‰L$è    H‹L$H‹D$ HÿÀH‹l$H9è|¼H‰L$@HƒÄ(Ã‰ë¾è    éwÿÿÿÌÌÌÌÌÌÌ
+      ¬  runtime.strhash   €  0runtime.morestack_noctxt   0P  
+"".autotmp_0040 type.int "".autotmp_0039 type.int "".~r2  type.uintptr "".h type.uintptr "".p  type.*[8]string PgOPO   
+ U; TgclocalsÂ·0b86ef39f3fed835f14ba5f4d7c62fa2 TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ô/Users/gabbyjameson/go/src/github.com/alecthomas/gometalinter/vendor/src/github.com/HewlettPackard/gas/output/formatter.goş$type..eq.[8]string à  àeH‹%    H;a†Î   HƒìX1ÀHÇD$(   H‹l$(H9è’   H‰D$0H‹\$`Hƒû „–   H‰ÅHÁåHëH‹3H‹KH‹\$hHƒû tvH‰ÅHÁåHëH‹H‹CH9ÁuVH‰t$HH‰4$H‰L$PH‰L$H‰T$8H‰T$H‰D$@H‰D$è    ¶\$ €û t H‹D$0HÿÀH‹l$(H9èŒnÿÿÿÆD$pHƒÄXÃÆD$p HƒÄXÃ‰ë†‰écÿÿÿè    éÿÿÿÌÌÌÌÌ
+      ¼   runtime.eqstring   Ä  0runtime.morestack_noctxt   0°  "".autotmp_0044 ?type.string "".autotmp_0043 type.string "".autotmp_0042 _type.int "".autotmp_0041 Otype.int "".~r2  type.bool "".q type.*[8]string "".p  type.*[8]string ,°´¯°	¯°¯ ğ ğ  S TgclocalsÂ·3bb21ca8fe1d99a3e492463bd711418a TgclocalsÂ·a8eabfc4a4514ed6b3b0c61e9680e440   ô/Users/gabbyjameson/go/src/github.com/alecthomas/gometalinter/vendor/src/github.com/HewlettPackard/gas/output/formatter.goş&go.string.hdr."csv"                       go.string."csv"   şgo.string."csv"   csv  ş(go.string.hdr."json"                        go.string."json"   ş go.string."json"   
+json  ş(go.string.hdr."text"                        go.string."text"   ş go.string."text"   
+text  şTgclocalsÂ·44750c784da4dd430afdd97fea5c405a                   şTgclocalsÂ·f32b7642ea58c8999c3997f8ff4a7ce0                  ş$go.string.hdr."\t"                       go.string."\t"   şgo.string."\t"   	  şTgclocalsÂ·627bbca91efe935c3ac76737d2026ca6              şTgclocalsÂ·13bdb4aeeaf63de3cc223d640262ea59             şTgclocalsÂ·4e60eba15a12281ce9e5ff0ea21a42f9      :           €   @U€  @U„   @U    @U   @U    @U @@U@@U@@U°
+@@U°@@U0@@U@@U  @U   @U şTgclocalsÂ·74a868152ebf2ce43aea351cc697c371                                                          ş&go.string.hdr."gas"                       go.string."gas"   şgo.string."gas"   gas  şTgclocalsÂ·fe6d737227bc51c28a115475f64fb682 @  @   
+                       şTgclocalsÂ·b5c717c15d407fb393979a28f905751b @  @                         ş$"".hdr..gostring.1             R         ""..gostring.1   ş""..gostring.1 °  ¦Results:
+{{ range $index, $issue := .Issues }}
+[{{ $issue.File }}:{{ $issue.Line }}] - {{ $issue.What }} (Confidence: {{ $issue.Confidence}}, Severity: {{ $issue.Severity }})
+  > {{ $issue.Code }}
+
+{{ end }}
+Summary:
+   Files: {{.Stats.NumFiles}}
+   Lines: {{.Stats.NumLines}}
+   Nosec: {{.Stats.NumNosec}}
+  Issues: {{.Stats.NumFound}}
+
+  şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           ş<"".text   type.string          R         ""..gostring.1   ş>"".initdoneÂ·  type.uint8   ş$"".CreateReportÂ·f              "".CreateReport   ş "".reportJSONÂ·f              "".reportJSON   ş"".reportCSVÂ·f              "".reportCSV   ş0"".reportFromTemplateÂ·f              *"".reportFromTemplate   ş"".initÂ·f              "".init   ş"runtime.gcbits.01    ş.go.string.hdr."[]uint8"                       &go.string."[]uint8"   ş&go.string."[]uint8"   []uint8  ştype.[]uint8                 ß~.8                                                 
+0   runtime.algarray   @  "runtime.gcbits.01   P  .go.string.hdr."[]uint8"   p  *go.weak.type.*[]uint8   €  type.uint8   ş6go.typelink.[]uint8	[]uint8              type.[]uint8   ş8go.string.hdr."[]core.Issue"                       0go.string."[]core.Issue"   ş0go.string."[]core.Issue"    []core.Issue  ş^type.[]github.com/HewlettPackard/gas/core.Issue                 †y                                                 
+0   runtime.algarray   @  "runtime.gcbits.01   P  8go.string.hdr."[]core.Issue"   p  pgo.weak.type.*[]github.com/HewlettPackard/gas/core.Issue   €  Ztype.github.com/HewlettPackard/gas/core.Issue   ş†go.typelink.[]core.Issue	[]github.com/HewlettPackard/gas/core.Issue              ^type.[]github.com/HewlettPackard/gas/core.Issue   ş0go.string.hdr."[]string"                       (go.string."[]string"   ş(go.string."[]string"    []string  ştype.[]string                 Ó¨ó
+                                                 
+0   runtime.algarray   @  "runtime.gcbits.01   P  0go.string.hdr."[]string"   p  ,go.weak.type.*[]string   €  type.string   ş:go.typelink.[]string	[]string              type.[]string   şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·0b86ef39f3fed835f14ba5f4d7c62fa2             şTgclocalsÂ·a8eabfc4a4514ed6b3b0c61e9680e440              şTgclocalsÂ·3bb21ca8fe1d99a3e492463bd711418a             ş0type..hashfunc.[6]string              (type..hash.[6]string   ş,type..eqfunc.[6]string              $type..eq.[6]string   ş&type..alg.[6]string                        0type..hashfunc.[6]string     ,type..eqfunc.[6]string   ş&runtime.gcbits.5505   U ş2go.string.hdr."[6]string"             	          *go.string."[6]string"   ş*go.string."[6]string"    [6]string  ştype.[6]string °  °`       X       :æ~                                                                0  &type..alg.[6]string   @  &runtime.gcbits.5505   P  2go.string.hdr."[6]string"   p  .go.weak.type.*[6]string   €  type.string     type.[]string   ş>go.typelink.[6]string	[6]string              type.[6]string   ş4go.string.hdr."*[6]string"             
+          ,go.string."*[6]string"   ş,go.string."*[6]string"    *[6]string  ştype.*[6]string                 ¾ÉY 6                                                
+0   runtime.algarray   @  "runtime.gcbits.01   P  4go.string.hdr."*[6]string"   p  0go.weak.type.**[6]string   €  type.[6]string   şruntime.gcbits.      ş0go.string.hdr."[8]uint8"                       (go.string."[8]uint8"   ş(go.string."[8]uint8"    [8]uint8  ştype.[8]uint8 °  °               >ù0´ ‘                                                               0   runtime.algarray   @  runtime.gcbits.   P  0go.string.hdr."[8]uint8"   p  ,go.weak.type.*[8]uint8   €  type.uint8     type.[]uint8   ş:go.typelink.[8]uint8	[8]uint8              type.[8]uint8   şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·0b86ef39f3fed835f14ba5f4d7c62fa2             şTgclocalsÂ·a8eabfc4a4514ed6b3b0c61e9680e440              şTgclocalsÂ·3bb21ca8fe1d99a3e492463bd711418a             ş0type..hashfunc.[8]string              (type..hash.[8]string   ş,type..eqfunc.[8]string              $type..eq.[8]string   ş&type..alg.[8]string                        0type..hashfunc.[8]string     ,type..eqfunc.[8]string   ş&runtime.gcbits.5555   UU ş2go.string.hdr."[8]string"             	          *go.string."[8]string"   ş*go.string."[8]string"    [8]string  ştype.[8]string °  °€       x       USŒ>                                                                0  &type..alg.[8]string   @  &runtime.gcbits.5555   P  2go.string.hdr."[8]string"   p  .go.weak.type.*[8]string   €  type.string     type.[]string   ş>go.typelink.[8]string	[8]string              type.[8]string   şHgo.string.hdr."[]*template.Template"                       @go.string."[]*template.Template"   ş@go.string."[]*template.Template" 0  *[]*template.Template  ş<type.[]*text/template.Template                 /ua¦                                                 
+0   runtime.algarray   @  "runtime.gcbits.01   P  Hgo.string.hdr."[]*template.Template"   p  Ngo.weak.type.*[]*text/template.Template   €  8type.*text/template.Template   ştgo.typelink.[]*template.Template	[]*text/template.Template              <type.[]*text/template.Template   ş type..hashfunc64             @          ,runtime.memhash_varlen   ştype..eqfunc64             @          .runtime.memequal_varlen   ştype..alg64                         type..hashfunc64     type..eqfunc64   ş"runtime.gcbits.ff   ÿ şJgo.string.hdr."[8]*template.Template"                       Bgo.string."[8]*template.Template"   şBgo.string."[8]*template.Template" 0  ,[8]*template.Template  ş>type.[8]*text/template.Template °  °@       @       Œ**                                                                0  type..alg64   @  "runtime.gcbits.ff   P  Jgo.string.hdr."[8]*template.Template"   p  Pgo.weak.type.*[8]*text/template.Template   €  8type.*text/template.Template     <type.[]*text/template.Template   şxgo.typelink.[8]*template.Template	[8]*text/template.Template              >type.[8]*text/template.Template   şjgo.string.hdr."*map.bucket[string]*template.Template"             %          bgo.string."*map.bucket[string]*template.Template"   şbgo.string."*map.bucket[string]*template.Template" P  L*map.bucket[string]*template.Template  ş^type.*map.bucket[string]*text/template.Template                 ã@=ú 6                                                
+0   runtime.algarray   @  "runtime.gcbits.01   P  jgo.string.hdr."*map.bucket[string]*template.Template"   p  pgo.weak.type.**map.bucket[string]*text/template.Template   €  \type.map.bucket[string]*text/template.Template   ş.runtime.gcbits.aaaafe03   ªªş şhgo.string.hdr."map.bucket[string]*template.Template"             $          `go.string."map.bucket[string]*template.Template"   ş`go.string."map.bucket[string]*template.Template" P  Jmap.bucket[string]*template.Template  ş.go.string.hdr."topbits"                       &go.string."topbits"   ş&go.string."topbits"   topbits  ş(go.string.hdr."keys"                        go.string."keys"   ş go.string."keys"   
+keys  ş,go.string.hdr."values"                       $go.string."values"   ş$go.string."values"   values  ş0go.string.hdr."overflow"                       (go.string."overflow"   ş(go.string."overflow"    overflow  ş\type.map.bucket[string]*text/template.Template ğ  ğĞ       Ğ       ¿§\_                                                                                                                                                                              ˆ                                       È       0à  runtime.algarray   @  .runtime.gcbits.aaaafe03   P  hgo.string.hdr."map.bucket[string]*template.Template"   p  ngo.weak.type.*map.bucket[string]*text/template.Template   €° \type.map.bucket[string]*text/template.Template   °  .go.string.hdr."topbits"   Ğ  type.[8]uint8   €  (go.string.hdr."keys"      type.[8]string   Ğ  ,go.string.hdr."values"   ğ  >type.[8]*text/template.Template      0go.string.hdr."overflow"   À  ^type.*map.bucket[string]*text/template.Template   ş"runtime.gcbits.2c   , şbgo.string.hdr."map.hdr[string]*template.Template"             !          Zgo.string."map.hdr[string]*template.Template"   şZgo.string."map.hdr[string]*template.Template" P  Dmap.hdr[string]*template.Template  ş*go.string.hdr."count"                       "go.string."count"   ş"go.string."count"   count  ş*go.string.hdr."flags"                       "go.string."flags"   ş"go.string."flags"   flags  ş"go.string.hdr."B"                       go.string."B"   şgo.string."B"   B  ş*go.string.hdr."hash0"                       "go.string."hash0"   ş"go.string."hash0"   hash0  ş.go.string.hdr."buckets"                       &go.string."buckets"   ş&go.string."buckets"   buckets  ş4go.string.hdr."oldbuckets"             
+          ,go.string."oldbuckets"   ş,go.string."oldbuckets"    oldbuckets  ş2go.string.hdr."nevacuate"             	          *go.string."nevacuate"   ş*go.string."nevacuate"    nevacuate  şVtype.map.hdr[string]*text/template.Template °  °0       0       µÛ›n                                                                                                                                                                              	                                                                                                                                                                                                    (       *0à  runtime.algarray   @  "runtime.gcbits.2c   P  bgo.string.hdr."map.hdr[string]*template.Template"   p  hgo.weak.type.*map.hdr[string]*text/template.Template   €° Vtype.map.hdr[string]*text/template.Template   °  *go.string.hdr."count"   Ğ  type.int   €  *go.string.hdr."flags"      type.uint8   Ğ  "go.string.hdr."B"   ğ  type.uint8      *go.string.hdr."hash0"   À  type.uint32   ğ  .go.string.hdr."buckets"     ^type.*map.bucket[string]*text/template.Template   À  4go.string.hdr."oldbuckets"   à  ^type.*map.bucket[string]*text/template.Template     2go.string.hdr."nevacuate"   °  type.uintptr   à  0go.string.hdr."overflow"   €  &type.unsafe.Pointer   şZgo.string.hdr."map[string]*template.Template"                       Rgo.string."map[string]*template.Template"   şRgo.string."map[string]*template.Template" @  <map[string]*template.Template  şNtype.map[string]*text/template.Template Ğ  Ğ              ;Qß 5                                                                          Ğ 0€  runtime.algarray   @  "runtime.gcbits.01   P  Zgo.string.hdr."map[string]*template.Template"   p  `go.weak.type.*map[string]*text/template.Template   €  type.string     8type.*text/template.Template      \type.map.bucket[string]*text/template.Template   °  Vtype.map.hdr[string]*text/template.Template   ş˜go.typelink.map[string]*template.Template	map[string]*text/template.Template              Ntype.map[string]*text/template.Template   ş>go.string.hdr."[]reflect.Value"                       6go.string."[]reflect.Value"   ş6go.string."[]reflect.Value"     []reflect.Value  ş(type.[]reflect.Value                 ¼íµú                                                 
+0   runtime.algarray   @  "runtime.gcbits.01   P  >go.string.hdr."[]reflect.Value"   p  :go.weak.type.*[]reflect.Value   €  $type.reflect.Value   şVgo.typelink.[]reflect.Value	[]reflect.Value              (type.[]reflect.Value   ş"type..hashfunc192             À          ,runtime.memhash_varlen   ştype..eqfunc192             À          .runtime.memequal_varlen   ştype..alg192                        "type..hashfunc192     type..eqfunc192   ş*runtime.gcbits.dbb66d   Û¶m ş@go.string.hdr."[8]reflect.Value"                       8go.string."[8]reflect.Value"   ş8go.string."[8]reflect.Value" 0  "[8]reflect.Value  ş*type.[8]reflect.Value °  °À       ¸       'µ%                                                                0  type..alg192   @  *runtime.gcbits.dbb66d   P  @go.string.hdr."[8]reflect.Value"   p  <go.weak.type.*[8]reflect.Value   €  $type.reflect.Value     (type.[]reflect.Value   şZgo.typelink.[8]reflect.Value	[8]reflect.Value              *type.[8]reflect.Value   ş`go.string.hdr."*map.bucket[string]reflect.Value"                        Xgo.string."*map.bucket[string]reflect.Value"   şXgo.string."*map.bucket[string]reflect.Value" P  B*map.bucket[string]reflect.Value  şJtype.*map.bucket[string]reflect.Value                 X×˜~ 6                                                
+0   runtime.algarray   @  "runtime.gcbits.01   P  `go.string.hdr."*map.bucket[string]reflect.Value"   p  \go.weak.type.**map.bucket[string]reflect.Value   €  Htype.map.bucket[string]reflect.Value   ş6runtime.gcbits.aaaab66ddb02   ªª¶mÛ ş^go.string.hdr."map.bucket[string]reflect.Value"                       Vgo.string."map.bucket[string]reflect.Value"   şVgo.string."map.bucket[string]reflect.Value" @  @map.bucket[string]reflect.Value  şHtype.map.bucket[string]reflect.Value ğ  ğP      P      ò[k                                                                                                                                                                              ˆ                                       H      0à  runtime.algarray   @  6runtime.gcbits.aaaab66ddb02   P  ^go.string.hdr."map.bucket[string]reflect.Value"   p  Zgo.weak.type.*map.bucket[string]reflect.Value   €° Htype.map.bucket[string]reflect.Value   °  .go.string.hdr."topbits"   Ğ  type.[8]uint8   €  (go.string.hdr."keys"      type.[8]string   Ğ  ,go.string.hdr."values"   ğ  *type.[8]reflect.Value      0go.string.hdr."overflow"   À  Jtype.*map.bucket[string]reflect.Value   şXgo.string.hdr."map.hdr[string]reflect.Value"                       Pgo.string."map.hdr[string]reflect.Value"   şPgo.string."map.hdr[string]reflect.Value" @  :map.hdr[string]reflect.Value  şBtype.map.hdr[string]reflect.Value °  °0       0       _ˆÁ                                                                                                                                                                              	                                                                                                                                                                                                    (       *0à  runtime.algarray   @  "runtime.gcbits.2c   P  Xgo.string.hdr."map.hdr[string]reflect.Value"   p  Tgo.weak.type.*map.hdr[string]reflect.Value   €° Btype.map.hdr[string]reflect.Value   °  *go.string.hdr."count"   Ğ  type.int   €  *go.string.hdr."flags"      type.uint8   Ğ  "go.string.hdr."B"   ğ  type.uint8      *go.string.hdr."hash0"   À  type.uint32   ğ  .go.string.hdr."buckets"     Jtype.*map.bucket[string]reflect.Value   À  4go.string.hdr."oldbuckets"   à  Jtype.*map.bucket[string]reflect.Value     2go.string.hdr."nevacuate"   °  type.uintptr   à  0go.string.hdr."overflow"   €  &type.unsafe.Pointer   şPgo.string.hdr."map[string]reflect.Value"                       Hgo.string."map[string]reflect.Value"   şHgo.string."map[string]reflect.Value" @  2map[string]reflect.Value  ş:type.map[string]reflect.Value Ğ  Ğ              ëj 5                                                                          P0€  runtime.algarray   @  "runtime.gcbits.01   P  Pgo.string.hdr."map[string]reflect.Value"   p  Lgo.weak.type.*map[string]reflect.Value   €  type.string     $type.reflect.Value      Htype.map.bucket[string]reflect.Value   °  Btype.map.hdr[string]reflect.Value   şzgo.typelink.map[string]reflect.Value	map[string]reflect.Value              :type.map[string]reflect.Value   şHgo.string.hdr."*output.ReportFormat"                       @go.string."*output.ReportFormat"   ş@go.string."*output.ReportFormat" 0  **output.ReportFormat  ş*type.*"".ReportFormat                  U"÷° 6                                                
+0   runtime.algarray   @  "runtime.gcbits.01   P  Hgo.string.hdr."*output.ReportFormat"   p  <go.weak.type.**"".ReportFormat   €  (type."".ReportFormat   şFgo.string.hdr."output.ReportFormat"                       >go.string."output.ReportFormat"   ş>go.string."output.ReportFormat" 0  (output.ReportFormat  ş8go.string.hdr."ReportFormat"                       0go.string."ReportFormat"   ş0go.string."ReportFormat"    ReportFormat  şhgo.string.hdr."github.com/HewlettPackard/gas/output"             $          `go.string."github.com/HewlettPackard/gas/output"   ş`go.string."github.com/HewlettPackard/gas/output" P  Jgithub.com/HewlettPackard/gas/output  ş"go.importpath."".             $          `go.string."github.com/HewlettPackard/gas/output"   ş(type."".ReportFormat  Ğ  Ğ               ÷ÁÉ ‚                                                                                0   runtime.algarray   @  runtime.gcbits.   P  Fgo.string.hdr."output.ReportFormat"   p  *type.*"".ReportFormat   `€ (type."".ReportFormat   €  8go.string.hdr."ReportFormat"     "go.importpath."".    Ğ (type."".ReportFormat   ş4go.string.hdr."*[8]string"             
+          ,go.string."*[8]string"   ş,go.string."*[8]string"    *[8]string  ştype.*[8]string                 ­”o 6                                                
+0   runtime.algarray   @  "runtime.gcbits.01   P  4go.string.hdr."*[8]string"   p  0go.weak.type.**[8]string   €  type.[8]string   ş8go.string.hdr."encoding/csv"                       0go.string."encoding/csv"   ş0go.string."encoding/csv"    encoding/csv  ş6go.importpath.encoding/csv.                       0go.string."encoding/csv"   ş$go.string.hdr."io"                       go.string."io"   şgo.string."io"   io  ş"go.importpath.io.                       go.string."io"   ş:go.string.hdr."encoding/json"                       2go.string."encoding/json"   ş2go.string."encoding/json"    encoding/json  ş8go.importpath.encoding/json.                       2go.string."encoding/json"   ş.go.string.hdr."strconv"                       &go.string."strconv"   ş&go.string."strconv"   strconv  ş,go.importpath.strconv.                       &go.string."strconv"   ş:go.string.hdr."text/template"                       2go.string."text/template"   ş2go.string."text/template"    text/template  ş8go.importpath.text/template.                       2go.string."text/template"   şdgo.string.hdr."github.com/HewlettPackard/gas/core"             "          \go.string."github.com/HewlettPackard/gas/core"   ş\go.string."github.com/HewlettPackard/gas/core" P  Fgithub.com/HewlettPackard/gas/core  şbgo.importpath.github.com/HewlettPackard/gas/core.             "          \go.string."github.com/HewlettPackard/gas/core"   ş.type..hash.[6]stringÂ·f              (type..hash.[6]string   ş*type..eq.[6]stringÂ·f              $type..eq.[6]string   ş.type..hash.[8]stringÂ·f              (type..hash.[8]string   ş*type..eq.[8]stringÂ·f              $type..eq.[8]string   ÿÿgo13ld 
